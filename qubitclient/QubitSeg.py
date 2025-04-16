@@ -8,8 +8,9 @@
 ########################################################################
 
 import logging
+import numpy as np
 
-from qubitclient.utils.request_tool import file_request
+from qubitclient.utils.request_tool import file_request,file_request_with_dict
 from qubitclient.utils.result_parser import parser_result
 
 
@@ -20,8 +21,16 @@ class QubitSegClient(object):
     def __init__(self, url, api_key):
         self.url = url
         self.api_key = api_key
-    def request(self, file_path_list):
-        response = file_request(file_path_list=file_path_list,url=self.url,api_key=self.api_key)
+    def request(self, file_list:list[str|dict[str,np.ndarray]]):
+        if len(file_list)>0:
+            if type(file_list[0]) == str:
+                response = file_request(file_path_list=file_list,url=self.url,api_key=self.api_key)
+            elif type(file_list[0]) == dict:# 多个content字典
+                response = file_request_with_dict(dict_list=file_list,url=self.url,api_key=self.api_key)
+            else:
+                raise ValueError("file_list must be a list of str or dict")
+        else:
+            raise ValueError("file_list must not be empty")
         return response
     def parser_result_with_image(self,response,images):
         if response.status_code == 200:

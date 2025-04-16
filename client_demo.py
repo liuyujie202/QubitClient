@@ -10,7 +10,7 @@
 import os
 import cv2
 
-from qubitclient.utils.data_parser import load_npz_to_images
+from qubitclient.utils.data_parser import load_npz_to_images,load_npz_file
 from qubitclient.QubitSeg import QubitSegClient
 
 
@@ -29,7 +29,17 @@ def send_npz_to_server(url, api_key):
 
 
     client = QubitSegClient(url=url, api_key=api_key)
-    response = client.request(file_path_list=file_path_list)
+    
+    # 使用文件路径，格式为str，形成list
+    # response = client.request(file_list=file_path_list)
+
+    dict_list = []
+    for file_path in file_path_list:
+        content = load_npz_file(file_path)
+        dict_list.append(content)
+    #使用从文件路径加载后的对象，格式为dict[str,np.ndarray]，多个组合成list
+    response = client.request(file_list=dict_list)
+    
 
     images = load_npz_to_images(file_path_list)
     result_images = client.parser_result_with_image(response=response, images=images)
@@ -40,6 +50,10 @@ def send_npz_to_server(url, api_key):
     print(result[0]["params_list"])
     print(result[0]["linepoints_list"])
     print(result[0]["confidence_list"])
+    
+    
+    # 增加结果坐标映射
+    # TODO
 
 def main():
     from config import API_URL, API_KEY
