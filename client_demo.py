@@ -8,10 +8,11 @@
 ########################################################################
 
 import os
-import cv2
+# import cv2
 import numpy as np
 
-from qubitclient.utils.data_parser import load_npz_to_images,load_npz_file
+# from qubitclient.utils.data_parser import load_npz_to_images
+from qubitclient.utils.data_parser import load_npz_file
 from qubitclient.QubitSeg import QubitSegClient
 
 import matplotlib.pyplot as plt  # 引入 matplotlib 绘图库
