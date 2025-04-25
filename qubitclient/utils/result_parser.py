@@ -7,6 +7,7 @@
 # Created Time: 2025/04/15 10:23:27
 ########################################################################
 
+import math
 import cv2
 
 def parser_result(result, images):
@@ -15,15 +16,35 @@ def parser_result(result, images):
         image = images[i]
         if len(image.shape) == 2:
             image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-        input_image_reshape = (512, 512)
+        # input_image_reshape = (512, 512)
+        input_image_reshape = (image.shape[1]*10,image.shape[0])
         image = cv2.resize(image, input_image_reshape, interpolation=cv2.INTER_NEAREST)
+        
         
         image_result = result[i]
         linepoints_list = image_result["linepoints_list"]
         for linepoints in linepoints_list:
             for j in range(len(linepoints) - 1):
-                cv2.line(image, tuple(linepoints[j]), tuple(linepoints[j + 1]), (0, 255, 0), 2)
+                cv2.line(image, tuple([int(linepoints[j][0]*10),int(linepoints[j][1])]), tuple([int(linepoints[j + 1][0]*10),int(linepoints[j + 1][1])]), (0, 255, 0), 2)
         
         # cv2.imwrite(f"tmp/client/result_{i}.jpg", image)
         result_images.append(image)
     return result_images
+
+def convet_axis(points,x_dim,y_dim):
+    reflection_points = []
+    for point in points:
+        x = point[0]
+        y = point[1]
+
+        x_grid_start = x_dim[int(x)]
+        x_grid_end = x_dim[min(int(x)+1,len(x_dim)-1)]
+        x_refletion = (x_grid_end-x_grid_start)* math.modf(x)[0] + x_grid_start
+
+        y_grid_start = y_dim[int(y)]
+        y_grid_end = y_dim[int(y)+1]
+        y_refletion = (y_grid_end-y_grid_start)* math.modf(y)[0] + y_grid_start
+        reflection_points.append([x_refletion,y_refletion])
+        pass
+        
+    return reflection_points

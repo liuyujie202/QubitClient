@@ -12,7 +12,7 @@ import numpy as np
 
 from qubitclient.utils.request_tool import file_request,file_request_with_dict
 from qubitclient.utils.result_parser import parser_result
-
+from qubitclient.utils.result_parser import convet_axis
 
 logging.basicConfig(level=logging.INFO)
 
@@ -53,3 +53,7 @@ class QubitSegClient(object):
         else:
             logging.error("Error: %s %s", response.status_code, response.text)
             return []
+    
+    def convert_axis(self,points,x_dim,y_dim):
+        return convet_axis(points=points,x_dim=x_dim,y_dim=y_dim)
+    

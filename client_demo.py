@@ -9,9 +9,12 @@
 
 import os
 import cv2
+import numpy as np
 
 from qubitclient.utils.data_parser import load_npz_to_images,load_npz_file
 from qubitclient.QubitSeg import QubitSegClient
+
+import matplotlib.pyplot as plt  # 引入 matplotlib 绘图库
 
 
 def send_npz_to_server(url, api_key):
@@ -36,15 +39,15 @@ def send_npz_to_server(url, api_key):
     dict_list = []
     for file_path in file_path_list:
         content = load_npz_file(file_path)
-        dict_list.append(content)
+        dict_list.append(content)    
     #使用从文件路径加载后的对象，格式为dict[str,np.ndarray]，多个组合成list
     response = client.request(file_list=dict_list)
     
 
-    images = load_npz_to_images(file_path_list)
-    result_images = client.parser_result_with_image(response=response, images=images)
-    for i, image in enumerate(result_images):
-        cv2.imwrite(f"./tmp/client/result_{i}.jpg", image)
+    # images = load_npz_to_images(file_path_list)
+    # result_images = client.parser_result_with_image(response=response, images=images)
+    # for i, image in enumerate(result_images):
+    #     cv2.imwrite(f"./tmp/client/result_{i}.jpg", image)
 
     result = client.get_result(response=response)
     print(result[0]["params_list"])
@@ -53,7 +56,28 @@ def send_npz_to_server(url, api_key):
     
     
     # 增加结果坐标映射
-    # TODO
+        
+    frequency = dict_list[0]["frequency"] # 750
+    bias = dict_list[0]["bias"] # 42
+    reflection_points = client.convert_axis(result[0]["linepoints_list"][0], bias,frequency)
+
+    plt.figure(figsize=(10, 6))
+    plt.pcolormesh(dict_list[0]["bias"], dict_list[0]["frequency"],  dict_list[0]["iq_avg"], shading='auto', cmap='viridis')
+    plt.colorbar(label='IQ Average')  # 添加颜色条
+    reflection_points = np.array(reflection_points)
+    xy_x = reflection_points[:, 0]  # 提取 x 坐标
+    xy_y = reflection_points[:, 1]  # 提取 y 坐标
+    plt.scatter(xy_x, xy_y, color='blue', label='XY Points', s=5, alpha=0.1)  # 绘制散点图
+    # 图形设置
+    plt.title(f"File: {file_name}")
+    plt.xlabel("Bias")
+    plt.ylabel("Frequency (GHz)")
+    plt.legend()
+    plt.show()
+    plt.savefig(f"./tmp/client/result.png")
+
+
+    pass
 
 def main():
     from config import API_URL, API_KEY
