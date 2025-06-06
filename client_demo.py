@@ -16,6 +16,7 @@ from qubitclient.utils.data_parser import load_npz_file
 from qubitclient.QubitSeg import QubitSegClient
 
 import matplotlib.pyplot as plt  # 引入 matplotlib 绘图库
+from qubitclient import CurveType
 
 
 def send_npz_to_server(url, api_key):
@@ -32,7 +33,7 @@ def send_npz_to_server(url, api_key):
     
 
 
-    client = QubitSegClient(url=url, api_key=api_key)
+    client = QubitSegClient(url=url, api_key=api_key,curve_type=CurveType.COSINE)
     
     # 使用文件路径，格式为str，形成list
     # response = client.request(file_list=file_path_list)
