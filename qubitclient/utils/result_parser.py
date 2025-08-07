@@ -41,8 +41,9 @@ def convet_axis(points,x_dim,y_dim):
         x_grid_end = x_dim[min(int(x)+1,len(x_dim)-1)]
         x_refletion = (x_grid_end-x_grid_start)* math.modf(x)[0] + x_grid_start
 
-        y_grid_start = y_dim[int(y)]
-        y_grid_end = y_dim[int(y)+1]
+        y_index = min(max(0,int(y)),len(y_dim)-2)
+        y_grid_start = y_dim[y_index]
+        y_grid_end = y_dim[y_index+1]
         y_refletion = (y_grid_end-y_grid_start)* math.modf(y)[0] + y_grid_start
         reflection_points.append([x_refletion,y_refletion])
         pass
