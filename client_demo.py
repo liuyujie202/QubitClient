@@ -69,7 +69,7 @@ def send_npz_to_server(url, api_key):
     plt.figure(figsize=(10, 6))
     plt.pcolormesh(dict_list[0]["bias"], dict_list[0]["frequency"],  dict_list[0]["iq_avg"], shading='auto', cmap='viridis')
     plt.colorbar(label='IQ Average')  # 添加颜色条
-    colors = plt.cm.tab20(np.linspace(0, 1, len(result[0]["linepoints_list"])))
+    colors = plt.cm.rainbow(np.linspace(0, 1, len(result[0]["linepoints_list"])))
     for i in range(len(reflection_points_lst)):
         reflection_points = reflection_points_lst[i]
         reflection_points = np.array(reflection_points)
