@@ -62,21 +62,24 @@ def send_npz_to_server(url, api_key):
     
     
     # 增加结果坐标映射
-        
-    frequency = dict_list[index]["frequency"] # 750
-    bias = dict_list[index]["bias"] # 42
-    reflection_points_lst = []
+    # frequency = dict_list[index]["frequency"] # 750
+    # bias = dict_list[index]["bias"] # 42
+    # reflection_points_lst = []
+    # for i in range(len(result["linepoints_list"])):
+    #     reflection_points = client.convert_axis(result["linepoints_list"][i], bias,frequency)
+    #     reflection_points_lst.append(reflection_points)
+    # points_list = reflection_points_lst
+
+    points_list = []
     for i in range(len(result["linepoints_list"])):
-        # reflection_points = client.convert_axis(result["linepoints_list"][i], bias,frequency)
-        # reflection_points_lst.append(reflection_points)
-        reflection_points_lst.append(result["linepoints_list"][i])
+        points_list.append(result["linepoints_list"][i])
 
     plt.figure(figsize=(10, 6))
     plt.pcolormesh(dict_list[index]["bias"], dict_list[index]["frequency"],  dict_list[index]["iq_avg"], shading='auto', cmap='viridis')
     plt.colorbar(label='IQ Average')  # 添加颜色条
     colors = plt.cm.rainbow(np.linspace(0, 1, len(result["linepoints_list"])))
-    for i in range(len(reflection_points_lst)):
-        reflection_points = reflection_points_lst[i]
+    for i in range(len(points_list)):
+        reflection_points = points_list[i]
         reflection_points = np.array(reflection_points)
         xy_x = reflection_points[:, 0]  # 提取 x 坐标
         xy_y = reflection_points[:, 1]  # 提取 y 坐标

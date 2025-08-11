@@ -68,12 +68,4 @@ res格式为：
 ]
 ```
 
-### 坐标映射
-```python
-points = result[0]["linepoints_list"][0]
-reflection_points = client.convert_axis(points, bias,frequency)
-```
-`points`格式:`List[[row_index,col_index],...]`,表示单条线段的点坐标.<br>
-`bias`格式:`np.ndarray shape(A)`，与上述bias相同.<br>
-`frequency`格式:`np.ndarray shape(B)`，与上述frequency相同.<br>
 
