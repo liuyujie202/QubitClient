@@ -10,6 +10,11 @@
 import os
 # import cv2
 import numpy as np
+import sys
+# 获取当前文件的绝对路径，向上两层就是项目根目录
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
 # from qubitclient.utils.data_parser import load_npz_to_images
 from qubitclient.utils.data_parser import load_npz_file
@@ -87,6 +92,8 @@ def send_npz_to_server(url, api_key,dir_path = "data/33137"):
         plt.colorbar(label='IQ Average')  # 添加颜色条
         colors = plt.cm.rainbow(np.linspace(0, 1, len(result["linepoints_list"])))
         for i in range(len(points_list)):
+            if result["confidence_list"][i]<0.2:
+                continue
             reflection_points = points_list[i]
             reflection_points = np.array(reflection_points)
             xy_x = reflection_points[:, 0]  # 提取 x 坐标
