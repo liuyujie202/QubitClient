@@ -10,6 +10,7 @@
 import os
 
 from qubitclient import QubitScopeClient
+from qubitclient import TaskName
 
 from qubitclient.scope.utils.data_parser import load_npz_file
 
@@ -48,7 +49,7 @@ def send_npz_to_server(url, api_key,dir_path = "data/33137"):
 
     for index in range(len(file_path_list)):
         # 使用文件路径，格式为str，形成list
-        response = client.request(file_list=[file_path_list[index]])
+        response = client.request(file_list=[file_path_list[index]],task_type=TaskName.OPTPIPULSE)
         results = client.get_result(response=response)
 
 
