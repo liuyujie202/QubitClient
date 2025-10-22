@@ -57,7 +57,7 @@ def task_register(func):
     return func
 
 def run_task(client,filepath_list: list[str],task_type:str):
-    response = DEFINED_TASKS[task_type](client,filepath_list)
+    response = DEFINED_TASKS[task_type.value](client,filepath_list)
     return response
 
 
