@@ -24,9 +24,9 @@ def send_spectrum_npy_to_server(url, api_key):
     # Method 1. load from file_path
     dict_list, name_list = convert_spectrum_npy2npz(file_path)
     # Method 2. data has been loaded, converted from dict 
-    data = np.load(file_path, allow_pickle=True)
-    data = data.item() if isinstance(data, np.ndarray) else data
-    dict_list, name_list = convert_spectrum_dict2npz(data)
+    # data = np.load(file_path, allow_pickle=True)
+    # data = data.item() if isinstance(data, np.ndarray) else data
+    # dict_list, name_list = convert_spectrum_dict2npz(data)
 
 
     client = QubitSegClient(url=url, api_key=api_key,curve_type=CurveType.COSINE)
@@ -52,9 +52,11 @@ def send_npz_to_server(url, api_key):
 
     client = QubitSegClient(url=url, api_key=api_key,curve_type=CurveType.COSINE)
     
+    # Method 1. load from file_path
     # 使用文件路径，格式为str，形成list
     # response = client.request(file_list=file_path_list)
 
+    # Method 2. data has been loaded, converted from dict 
     dict_list = []
     for file_path in file_path_list:
         content = load_npz_file(file_path)
