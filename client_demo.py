@@ -14,7 +14,7 @@ import numpy as np
 # from qubitclient.utils.data_parser import load_npz_to_images
 from qubitclient.utils.data_parser import load_npz_file
 from qubitclient.QubitSeg import QubitSegClient
-from qubitclient.utils.data_convert import convert_spectrum_npy2npz
+from qubitclient.utils.data_convert import convert_spectrum_npy2npz,convert_spectrum_dict2npz
 
 import matplotlib.pyplot as plt  # 引入 matplotlib 绘图库
 from qubitclient import CurveType
