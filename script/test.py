@@ -18,7 +18,7 @@ if project_root not in sys.path:
 
 # from qubitclient.utils.data_parser import load_npz_to_images
 from qubitclient.utils.data_parser import load_npz_file
-from qubitclient.nnscope.QubitSeg import QubitSegClient
+from qubitclient.QubitSeg import QubitSegClient
 
 import matplotlib.pyplot as plt  # 引入 matplotlib 绘图库
 from qubitclient import CurveType

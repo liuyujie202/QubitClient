@@ -10,7 +10,7 @@ import os
 import requests
 import io
 import numpy as np
-from qubitclient.nnscope.curve.curve_type import CurveType
+from qubitclient.nnscope.nnscope_api.curve.curve_type import CurveType
 
 
 def file_request(file_path_list,url,api_key,curve_type:CurveType=None):
