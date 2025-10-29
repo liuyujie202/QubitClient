@@ -140,6 +140,7 @@ class TaskName(Enum):
     SPECTRUM = "spectrum"
     T1FIT = "t1fit"
     T2FIT = "t2fit"
+    SPECTRUM2D = "spectrum2d"
 
 
 
