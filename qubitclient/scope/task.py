@@ -9,6 +9,7 @@ from .scope_api.api.defined_tasks import singleshot_api_v1_tasks_scope_singlesho
 from .scope_api.api.defined_tasks import spectrum_api_v1_tasks_scope_spectrum_post
 from .scope_api.api.defined_tasks import t1fit_api_v1_tasks_scope_t1fit_post
 from .scope_api.api.defined_tasks import t1fit_api_v1_tasks_scope_t2fit_post
+from .scope_api.api.defined_tasks import spectrum2d_api_v1_tasks_scope_spectrum2d_post
 
 from .scope_api.models import BodyS21PeakApiV1TasksScopeS21PeakPost
 from .scope_api.models import BodyOptpipulseApiV1TasksScopeOptpipulsePost
@@ -19,6 +20,7 @@ from .scope_api.models import BodySingleshotApiV1TasksScopeSingleshotPost
 from .scope_api.models import BodySpectrumApiV1TasksScopeSpectrumPost
 from .scope_api.models import BodyT1FitApiV1TasksScopeT1FitPost
 from .scope_api.models import BodyT1FitApiV1TasksScopeT2FitPost
+from .scope_api.models import BodySpectrum2DApiV1TasksScopeSpectrum2DPost
 
 from .scope_api.types import Response
 from .scope_api.types import File
@@ -120,7 +122,11 @@ def t2fit(client,files: File):
     response: Response[BodyT1FitApiV1TasksScopeT2FitPost] = t1fit_api_v1_tasks_scope_t2fit_post.sync_detailed(client=client,body=body)
     return response
 
-
+@task_register
+def spectrum2d(client,files: File):
+    body: BodySpectrum2DApiV1TasksScopeSpectrum2DPost = BodySpectrum2DApiV1TasksScopeSpectrum2DPost(files=files)
+    response: Response[BodySpectrum2DApiV1TasksScopeSpectrum2DPost] = spectrum2d_api_v1_tasks_scope_spectrum2d_post.sync_detailed(client=client,body=body)
+    return response
 
 from enum import Enum, unique
 @unique
