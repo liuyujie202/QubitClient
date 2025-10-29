@@ -65,7 +65,7 @@ def spectrum2d(filepath_list,url,api_key,curve_type):
 
 from enum import Enum, unique
 @unique
-class TaskName(Enum):
+class NNTaskName(Enum):
     # S21PEAK = "s21peak"
     # OPTPIPULSE = "optpipulse"
     # RABI = "rabi"
