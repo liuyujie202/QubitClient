@@ -16,12 +16,7 @@ QubitClient 是用于使用Qubit服务的示例。
 # 使用
 
 ### scope功能包
-#### 运行示例代码
-```python
-python demo/scope_demo.py
-```
 
-### 曲线分割功能
 #### 使用说明
 1.拷贝config.py.example文件为config.py，并修改配置参数。
 ```
@@ -29,25 +24,33 @@ cp config.py.example config.py
 ```
 2.运行
 单次请求多个文件：
-```bash
-python client_demo.py
+```python
+python tests/test_nnscope.py
 ```
 批量多次请求
 ```bash
-python script/test.py
+Not provided
 ```
+## 功能集合
+### 曲线分割功能
+
+#### 运行示例代码
+```python
+python tests/test_nnscope.py
+```
+
 #### 定义实例
 ```
-client = QubitSegClient(url=url, api_key=api_key,curve_type=CurveType.POLY)
+client = QubitNNScopeClient(url=url,api_key="")
 ```
-curve_type: CurveType.COSINE(cosin拟合) or CurveType.POLY(多项式拟合)
 
 #### 请求输入
 
 ```python
-response = client.request(file_list=dict_list)
+response = client.request(file_list=file_path_list,\
+    task_type=NNTaskName.SPECTRUM2D,curve_type=CurveType.COSINE)
 ```
-dict_list格式为：
+- dict_list格式为：
 ```json
 [
     {
@@ -58,6 +61,7 @@ dict_list格式为：
     ...
 ]
 ```
+- curve_type: `CurveType.COSINE`(cosin拟合) or `CurveType.POLY`(多项式拟合)
 
 
 #### 返回值
@@ -86,5 +90,7 @@ res格式为：
     ...
 ]
 ```
+
+### 其他功能完善中
 
 
