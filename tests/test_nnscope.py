@@ -137,6 +137,7 @@ def plot_result_npy(results,data_ndarray):
     fig = plt.figure(figsize=(5 * col, 4 * row))
     data_dict = data_ndarray.item() if isinstance(data_ndarray, np.ndarray) else data_ndarray
     data_dict = data_dict['image']
+    data_dict = data_dict.item() if isinstance(data_dict, np.ndarray) else data_dict
     dict_list = []
     q_list = data_dict.keys()
 
@@ -201,7 +202,8 @@ def main():
     # base_dir = "data/1829"
     # send_npz_to_server(API_URL, API_KEY, base_dir)
     # 2. npy file.
-    file_path = "/home/sunyaqiang/work/QubitClient/tmp/npyfile/tmp0ffc025b.py_4905.npy"
+    # file_path = "/home/sunyaqiang/work/QubitClient/tmp/npyfile/tmp0ffc025b.py_4905.npy"
+    file_path = "/home/sunyaqiang/work/QubitClient/tmp/online/None3.npy"
     send_npy_to_server(API_URL, API_KEY, file_path)
 
 
