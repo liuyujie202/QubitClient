@@ -28,6 +28,46 @@ def load_from_npz_path(file_path_list:list[str]):
         bytes_obj = buffer.getvalue()
     files.append(("request", ("None.npy", bytes_obj, "application/octet-stream")))
     return files
+# def load_from_npz_path(file_path_list:list[str]):
+#     files = []
+#     npydata = {}
+#     npydata['id'] = 0
+#     index = 0
+#     for file_path in file_path_list:
+#         if file_path.endswith('.npz'):
+#             index+=1
+#             with np.load(file_path, allow_pickle=True) as data:  # 修改：添加 allow_pickle=True 参数
+#                 # file_contents[file_name] = dict(data)  # 将 .npz 文件内容转换为字典
+#                 content = dict(data)  # 将 .npz 文件内容转换为字典
+#                 allq = content['image'].item()
+#                 allq_downsample={}
+#                 for q in allq.keys():
+#                     singleq = allq[q]
+#                     singleq_downsampe = (singleq[0][::1,::1],singleq[1][::1],singleq[2][::1])
+#                     # iq = zoom(singleq[0],(2,1),order=1)
+#                     # zero_arr = np.zeros((45,40))
+#                     # iq = np.vstack((singleq[0],zero_arr))
+#                     # # iq = np.vstack((singleq[0],singleq[0]))
+#                     #
+#                     # arr_2d = singleq[2].reshape(1,-1)
+#                     # arr_zoomed = zoom(arr_2d,(1,2),order=1)
+#                     # freq = arr_zoomed.flatten()
+#                     #
+#                     #
+#                     # singleq_downsampe = (iq[::1,::1],singleq[1][::1],freq)
+#
+#
+#                     # singleq_downsampe = (singleq[0],singleq[1],singleq[2])
+#
+#                     allq_downsample[q] = singleq_downsampe
+#                 # allq_downsample  = np.array(allq_downsample,dtype=object).reshape(())
+#                 # npydata['image'] = (content['image'])
+#                 npydata['image'] = allq_downsample
+#     with io.BytesIO() as buffer:
+#         np.save(buffer, npydata)
+#         bytes_obj = buffer.getvalue()
+#     files.append(("request", ("None.npy", bytes_obj, "application/octet-stream")))
+#     return files
 def load_from_npy_path(file_path_list:list[str]):
     files = []
     for file_path in file_path_list:
