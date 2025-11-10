@@ -1,6 +1,7 @@
 """Contains all the data models used in inputs/outputs"""
 
 from .body_optpipulse_api_v1_tasks_scope_optpipulse_post import BodyOptpipulseApiV1TasksScopeOptpipulsePost
+from .body_powershift_api_v1_tasks_scope_powershift_post import BodyPowershiftApiV1TasksScopePowershiftPost
 from .body_rabi_api_v1_tasks_scope_rabi_post import BodyRabiApiV1TasksScopeRabiPost
 from .body_rabicos_api_v1_tasks_scope_rabicospeak_post import BodyRabicosApiV1TasksScopeRabicospeakPost
 from .body_s21_peak_api_v1_tasks_scope_s21_peak_post import BodyS21PeakApiV1TasksScopeS21PeakPost
@@ -15,6 +16,7 @@ from .validation_error import ValidationError
 
 __all__ = (
     "BodyOptpipulseApiV1TasksScopeOptpipulsePost",
+    "BodyPowershiftApiV1TasksScopePowershiftPost",
     "BodyRabiApiV1TasksScopeRabiPost",
     "BodyRabicosApiV1TasksScopeRabicospeakPost",
     "BodyS21PeakApiV1TasksScopeS21PeakPost",
