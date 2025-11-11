@@ -147,7 +147,7 @@ def test(files):
 
 @task_register
 def spectrum2d(files,url,api_key,curve_type):
-    spectrum2d_url = url + "/seglines"
+    spectrum2d_url = url + "/api/v1/tasks/nnscope/seglines"
     response = request_task(files,spectrum2d_url,api_key,curve_type)
     return response
 
