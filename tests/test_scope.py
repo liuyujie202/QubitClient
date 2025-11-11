@@ -36,7 +36,7 @@ def send_npy_to_server(url, api_key,dir_path = "data/33137"):
     if len(file_path_list)==0:
         return
     
-    client = QubitScopeClient(url=url,api_key="")
+    client = QubitScopeClient(url=url,api_key=api_key)
 
     dict_list = []
     for file_path in file_path_list:
