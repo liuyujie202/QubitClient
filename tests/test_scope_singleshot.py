@@ -49,7 +49,7 @@ def send_npy_to_server(url, api_key, dir_path="data/33137"):
         dict_list.append(content)
 
         # 使用从文件路径加载后的对象，格式为np.ndarray，多个组合成list
-    response = client.request(file_list=dict_list, task_type=TaskName.S21VFLUX)
+    response = client.request(file_list=dict_list, task_type=TaskName.SINGLESHOT)
     print(response)
 
     # === 解析结果并绘图（每个文件单独生成 HTML）===
@@ -68,7 +68,7 @@ def send_npy_to_server(url, api_key, dir_path="data/33137"):
     for idx, (result, dict) in enumerate(zip(results, dict_list)):
         plt_plot_manager.plot_quantum_data(
             data_type='npy',
-            task_type=TaskName.S21VFLUX.value,
+            task_type=TaskName.SINGLESHOT.value,
             save_format="png",
             save_name=savenamelist[idx],
             result=result,
@@ -76,7 +76,7 @@ def send_npy_to_server(url, api_key, dir_path="data/33137"):
         )
         ply_plot_manager.plot_quantum_data(
             data_type='npy',
-            task_type=TaskName.S21VFLUX.value,
+            task_type=TaskName.SINGLESHOT.value,
             save_format="html",
             save_name=savenamelist[idx],
             result=result,
@@ -87,7 +87,7 @@ def send_npy_to_server(url, api_key, dir_path="data/33137"):
 def main():
     from config import API_URL, API_KEY
 
-    base_dir = "./tmp/s21vlux"
+    base_dir = "./tmp/singleshot"
     send_npy_to_server(API_URL, API_KEY, base_dir)
 
 

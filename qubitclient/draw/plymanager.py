@@ -2,7 +2,7 @@
 from typing import Dict, List
 from .plyplotter import QuantumDataPlyPlotter
 from .spectrum2dplyplotter import Spectrum2DDataPlyPlotter
-from .s21vfluxplyplotter import S21VfluxDataPlyPlotter
+from .singleshotplyplotter import SingleShotDataPlyPlotter
 
 
 class QuantumPlotPlyManager:
@@ -15,7 +15,7 @@ class QuantumPlotPlyManager:
     def register_plotters(self):
 
         self.plotters["spectrum2d"] = Spectrum2DDataPlyPlotter()
-        self.plotters["s21vflux"] = S21VfluxDataPlyPlotter()
+        self.plotters["singleshot"] = SingleShotDataPlyPlotter()
 
     def get_plotter(self, task_type: str) -> QuantumDataPlyPlotter:
 
