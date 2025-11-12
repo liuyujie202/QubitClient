@@ -48,7 +48,7 @@ def load_from_ndarray(ndarray_list: list[np.ndarray]):
         buffer = io.BytesIO()
         np.save(buffer, ndarray_data)
         buffer.seek(0)
-        files.append(File(payload=buffer.read(), file_name=f"file_{idx}.npz"))
+        files.append(File(payload=buffer.read(), file_name=f"file_{idx}.npy"))
     return files
 
 def load_from_path(filepath_list: list[str]):
