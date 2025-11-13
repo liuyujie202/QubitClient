@@ -33,15 +33,11 @@ class SpectrumDataPltPlotter(QuantumDataPltPlotter):
         # 结果数据
         peaks_list = result['peaks_list']
         confidences_list = result['confidences_list']
-        # mean_cut_widths_list = result['mean_cut_widths_list']  # 暂未使用
 
-        # 计算合适的子图布局（多行多列）
-        # 优先保证列数不超过5，超过则增加行数，使布局更美观
         max_cols = 5
         cols = min(num_qubits, max_cols)  # 列数不超过max_cols
         rows = (num_qubits + cols - 1) // cols  # 计算需要的行数（向上取整）
 
-        # 计算画布大小（根据行列数动态调整，单图大小保持6x4比例）
         fig_width = 6 * cols
         fig_height = 4 * rows
         fig, axes = plt.subplots(rows, cols, figsize=(fig_width, fig_height))
