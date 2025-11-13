@@ -10,6 +10,7 @@ from .rabiplyplotter import RabiDataPlyPlotter
 from .t1fitplyplotter import T1FitDataPlyPlotter
 from .t2fitplyplotter import T2FitDataPlyPlotter
 from .rabicosplyplotter import RabiCosDataPlyPlotter
+from .s21peakplyplotter import S21PeakDataPlyPlotter
 
 class QuantumPlotPlyManager:
 
@@ -29,6 +30,8 @@ class QuantumPlotPlyManager:
         self.plotters["t1fit"] = T1FitDataPlyPlotter()
         self.plotters["t2fit"] = T2FitDataPlyPlotter()
         self.plotters["rabi"] = RabiDataPlyPlotter()
+        self.plotters["s21peak"] = S21PeakDataPlyPlotter()
+
     def get_plotter(self, task_type: str) -> QuantumDataPlyPlotter:
 
         if task_type not in self.plotters:

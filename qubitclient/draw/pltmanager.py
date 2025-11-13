@@ -4,6 +4,7 @@ from .spectrum2dpltplotter import Spectrum2DDataPltPlotter
 from .s21vfluxpltplotter import S21VfluxDataPltPlotter
 from .singleshotpltplotter import SingleShotDataPltPlotter
 from .spectrum2dscopepltplotter import Spectrum2DScopeDataPltPlotter
+from .s21peakpltplotter import S21PeakDataPltPlotter
 
 from .optpipulsepltplotter import OptPiPulseDataPltPlotter
 from .rabipltplotter import RabiDataPltPlotter
@@ -26,6 +27,8 @@ class QuantumPlotPltManager:
         self.plotters["t1fit"] = T1FitDataPltPlotter()
         self.plotters["t2fit"] = T2FitDataPltPlotter()
         self.plotters["rabi"] = RabiDataPltPlotter()
+        self.plotters["s21peak"] = S21PeakDataPltPlotter()
+
     def get_plotter(self, task_type: str) -> QuantumDataPltPlotter:
         if task_type not in self.plotters:
             raise ValueError(f"未找到任务 '{task_type}' 的绘图器")
