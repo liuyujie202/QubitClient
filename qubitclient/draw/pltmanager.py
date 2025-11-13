@@ -2,6 +2,8 @@ from typing import Dict, List
 from .pltplotter import QuantumDataPltPlotter
 from .spectrum2dpltplotter import Spectrum2DDataPltPlotter
 from .s21vfluxpltplotter import S21VfluxDataPltPlotter
+from .singleshotpltplotter import SingleShotDataPltPlotter
+from .spectrum2dscopepltplotter import Spectrum2DScopeDataPltPlotter
 
 class QuantumPlotPltManager:
     def __init__(self):
@@ -11,6 +13,8 @@ class QuantumPlotPltManager:
     def register_plotters(self):
         self.plotters["spectrum2d"] = Spectrum2DDataPltPlotter()
         self.plotters["s21vflux"] = S21VfluxDataPltPlotter()
+        self.plotters["singleshot"] = SingleShotDataPltPlotter()
+        self.plotters["spectrum2dscope"] = Spectrum2DScopeDataPltPlotter()
 
     def get_plotter(self, task_type: str) -> QuantumDataPltPlotter:
         if task_type not in self.plotters:

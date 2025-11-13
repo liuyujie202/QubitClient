@@ -127,7 +127,7 @@ def t2fit(client,files: File):
     return response
 
 @task_register
-def spectrum2d(client,files: File):
+def spectrum2dscope(client,files: File):
     body: BodySpectrum2DApiV1TasksScopeSpectrum2DPost = BodySpectrum2DApiV1TasksScopeSpectrum2DPost(files=files)
     response: Response[BodySpectrum2DApiV1TasksScopeSpectrum2DPost] = spectrum2d_api_v1_tasks_scope_spectrum2d_post.sync_detailed(client=client,body=body)
     return response
@@ -149,7 +149,7 @@ class TaskName(Enum):
     SPECTRUM = "spectrum"
     T1FIT = "t1fit"
     T2FIT = "t2fit"
-    SPECTRUM2D = "spectrum2d"
+    SPECTRUM2DSCOPE = "spectrum2dscope"
     POWERSHIFT = "powershift"
 
 
