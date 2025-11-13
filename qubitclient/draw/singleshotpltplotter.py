@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .pltplotter import QuantumDataPltPlotter
 
-from waveforms.math.fit import get_threshold_info
 from scipy.stats import norm
 
 class SingleShotDataPltPlotter(QuantumDataPltPlotter):
@@ -37,7 +36,13 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
 
 
         sep_score_list = result['sep_score_list']
-
+        threshold_list = result['threshold_list']
+        phi_list = result['phi_list']
+        signal_list = result['signal_list']
+        idle_list = result['idle_list']
+        params_list = result['params_list']
+        std_list = result['std_list']
+        cdf_list = result['cdf_list']
         hotThresh = 10000  # 切换为热力图模式的样本数阈值
         nums = len(s0_list) * 2
         row = (nums // 6) + 1 if nums % 6 != 0 else nums // 6
@@ -46,8 +51,6 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
         for i in range(len(s0_list)):
             s0 = s0_list[i]
             s1 = s1_list[i]
-
-            info = get_threshold_info(s0, s1)
             _, *bins = np.histogram2d(np.real(np.hstack([s0, s1])),
                                       np.imag(np.hstack([s0, s1])),
                                       bins=50)  # 构建二维直方图
@@ -63,7 +66,8 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
 
             sep_score = sep_score_list[i]
 
-            thr, phi = info['threshold'], info['phi']
+            thr = threshold_list[i]
+            phi = phi_list[i]
 
             # 子图1：复平面图
             ax1 = fig.add_subplot(row, col, 2 * i + 1)
@@ -87,7 +91,7 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
                 s.set_visible(False)
 
             # 椭圆参数提取和绘制
-            params = info['params']
+            params = params_list[i]
             r0, i0, r1, i1 = params[0][0], params[1][0], params[0][1], params[1][1]
             a0, b0, a1, b1 = params[0][2], params[1][2], params[0][3], params[1][3]
             c0 = (r0 + 1j * i0) * np.exp(1j * phi)
@@ -96,7 +100,7 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
             phi1 = phi + params[1][6]
             self.plotEllipse(c0, 2 * a0, 2 * b0, phi0, ax1)
             self.plotEllipse(c1, 2 * a1, 2 * b1, phi1, ax1)
-            im0, im1 = info['idle']
+            im0, im1 = idle_list[i]
             im0 = np.array(im0)
             im1 = np.array(im1)
             lim = min(im0.min(), im1.min()), max(im0.max(), im1.max())
@@ -107,8 +111,8 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
             ax1.axis('off')
 
             # 子图2：投影信号分布图 + CDF
-            re0, re1 = info['signal']
-            x, a, b, c = info['cdf']
+            re0, re1 = signal_list[i]
+            x, a, b, c = cdf_list[i]
             re0 = np.array(re0)
             re1 = np.array(re1)
             xrange = (min(re0.min(), re1.min()), max(re0.max(), re1.max()))
@@ -127,10 +131,7 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
 
             x = np.array(x)
             x_range = np.linspace(x.min(), x.max(), 1001)
-            *_, cov0, cov1 = info['std']
-            c0, c1 = info['center']
-            c0 /= ((c1 - c0) / np.abs(c1 - c0))
-            c1 /= ((c1 - c0) / np.abs(c1 - c0))
+            *_, cov0, cov1 = std_list[i]
 
             ax3 = ax2.twinx()
             ax3.plot(x, a, '--', lw=1, color='C0')
@@ -139,8 +140,10 @@ class SingleShotDataPltPlotter(QuantumDataPltPlotter):
             ax3.set_ylim(0, 1.1)
             ax3.vlines(thr, 0, 1.1, 'k', alpha=0.5)
             ax3.set_ylabel('Probability')
-            ax3.set_title(f'{q_name_list[i]}', fontsize=14, fontweight='bold', pad=15)
+
             ax2.axis('off')
 
         plt.tight_layout()
         return fig  # ✅ 返回 Figure 对象
+
+

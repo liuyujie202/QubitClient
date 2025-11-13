@@ -2,7 +2,6 @@ from .plyplotter import QuantumDataPlyPlotter
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from waveforms.math.fit import get_threshold_info
 from scipy.stats import norm
 
 class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
@@ -39,6 +38,12 @@ class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
             q_name_list.append(q_name)
 
         sep_score_list = result['sep_score_list']
+        threshold_list = result['threshold_list']
+        phi_list = result['phi_list']
+        signal_list = result['signal_list']
+        idle_list = result['idle_list']
+        params_list = result['params_list']
+        cdf_list = result['cdf_list']
         num_qubits = len(s0_list)
 
         # 创建子图布局 - 每行最多3个量子比特，每个量子比特2个子图
@@ -61,9 +66,9 @@ class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
             s0 = s0_list[i]
             s1 = s1_list[i]
 
-            info = get_threshold_info(s0, s1)
             sep_score = sep_score_list[i]
-            thr, phi = info['threshold'], info['phi']
+            thr = threshold_list[i]
+            phi  = phi_list[i]
 
             # 计算行和列位置
             row_pos = (i // 3) + 1
@@ -134,7 +139,7 @@ class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
             )
 
             # 椭圆绘制
-            params = info['params']
+            params = params_list[i]
             r0, i0, r1, i1 = params[0][0], params[1][0], params[0][1], params[1][1]
             a0, b0, a1, b1 = params[0][2], params[1][2], params[0][3], params[1][3]
             c0 = (r0 + 1j * i0) * np.exp(1j * phi)
@@ -166,7 +171,7 @@ class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
                 row=row_pos, col=col_pos_left
             )
 
-            im0, im1 = info['idle']
+            im0, im1 = idle_list[i]
             im0 = np.array(im0)
             im1 = np.array(im1)
             lim = min(im0.min(), im1.min()), max(im0.max(), im1.max())
@@ -201,8 +206,8 @@ class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
             )
 
             # 子图2：投影信号分布图
-            re0, re1 = info['signal']
-            x, a, b, c = info['cdf']
+            re0, re1 = signal_list[i]
+            x, a, b, c = cdf_list[i]
             re0 = np.array(re0)
             re1 = np.array(re1)
             xrange = (min(re0.min(), re1.min()), max(re0.max(), re1.max()))
