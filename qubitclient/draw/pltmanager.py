@@ -4,6 +4,7 @@ from .spectrum2dpltplotter import Spectrum2DDataPltPlotter
 from .s21vfluxpltplotter import S21VfluxDataPltPlotter
 from .singleshotpltplotter import SingleShotDataPltPlotter
 from .spectrum2dscopepltplotter import Spectrum2DScopeDataPltPlotter
+from .spectrumpltplotter import SpectrumDataPltPlotter
 from .s21peakpltplotter import S21PeakDataPltPlotter
 
 from .optpipulsepltplotter import OptPiPulseDataPltPlotter
@@ -22,6 +23,7 @@ class QuantumPlotPltManager:
         self.plotters["s21vflux"] = S21VfluxDataPltPlotter()
         self.plotters["singleshot"] = SingleShotDataPltPlotter()
         self.plotters["spectrum2dscope"] = Spectrum2DScopeDataPltPlotter()
+        self.plotters["spectrum"] = SpectrumDataPltPlotter()
         self.plotters["optpipulse"] = OptPiPulseDataPltPlotter()
         self.plotters["rabicos"] = RabiCosDataPltPlotter()
         self.plotters["t1fit"] = T1FitDataPltPlotter()

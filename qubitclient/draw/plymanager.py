@@ -5,6 +5,8 @@ from .spectrum2dplyplotter import Spectrum2DDataPlyPlotter
 from .s21vfluxplyplotter import S21VfluxDataPlyPlotter
 from .singleshotplyplotter import SingleShotDataPlyPlotter
 from .spectrum2dscopeplyplotter import Spectrum2DScopeDataPlyPlotter
+from .spectrumplyplotter import SpectrumDataPlyPlotter
+
 from .optpipulseplyplotter import OptPiPulseDataPlyPlotter
 from .rabiplyplotter import RabiDataPlyPlotter
 from .t1fitplyplotter import T1FitDataPlyPlotter
@@ -25,6 +27,7 @@ class QuantumPlotPlyManager:
         self.plotters["s21vflux"] = S21VfluxDataPlyPlotter()
         self.plotters["singleshot"] = SingleShotDataPlyPlotter()
         self.plotters["spectrum2dscope"] = Spectrum2DScopeDataPlyPlotter()
+        self.plotters["spectrum"] = SpectrumDataPlyPlotter()
         self.plotters["optpipulse"] = OptPiPulseDataPlyPlotter()
         self.plotters["rabicos"] = RabiCosDataPlyPlotter()
         self.plotters["t1fit"] = T1FitDataPlyPlotter()
