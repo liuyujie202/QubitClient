@@ -9,20 +9,14 @@ on:
 jobs:
   build:
     name: Build and Upload wheel
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.10", "3.11", "3.12"]
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12" 
 
       - name: Install uv
         run: |
@@ -36,7 +30,7 @@ jobs:
       - name: Upload wheel artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels
           path: dist/*.whl
 
   publish_pypi:
@@ -44,10 +38,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download wheels from all OSes
+      - name: Download wheels from the build
         uses: actions/download-artifact@v4
         with:
-          name: wheels-ubuntu-latest
+          name: wheels
           path: dist
 
       - name: List all downloaded wheels
