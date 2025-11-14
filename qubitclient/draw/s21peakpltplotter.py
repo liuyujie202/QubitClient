@@ -8,11 +8,11 @@ class S21PeakDataPltPlotter(QuantumDataPltPlotter):
 
     def plot_result_npy(self, **kwargs):
         result = kwargs.get('result')
-        dict = kwargs.get('dict')
+        dict_param = kwargs.get('dict')
 
-        dict = dict.item()
+        dict_param = dict_param.item()
 
-        image = dict["image"]
+        image = dict_param["image"]
         q_list = image.keys()
         x_list = []
         amp_list = []
@@ -28,7 +28,7 @@ class S21PeakDataPltPlotter(QuantumDataPltPlotter):
             phi_list.append((phi))
             q_name_list.append(q_name)
         peaks_list = result['peaks']
-        confs_list = result['peaks']
+        confs_list = result['confs']
 
         nums = len(x_list)
         row = (nums // 3) + 1 if nums % 3 != 0 else nums // 3

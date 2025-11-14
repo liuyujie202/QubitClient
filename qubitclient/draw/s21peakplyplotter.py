@@ -35,7 +35,7 @@ class S21PeakDataPlyPlotter(QuantumDataPlyPlotter):
 
 
         peaks_list = result_param['peaks']
-        confs_list = result_param['peaks']
+        confs_list = result_param['confs']
 
         nums = len(x_list)
         row = (nums // 3) + 1 if nums % 3 != 0 else nums // 3
