@@ -12,6 +12,7 @@ from .rabipltplotter import RabiDataPltPlotter
 from .t1fitpltplotter import T1FitDataPltPlotter
 from .t2fitpltplotter import T2FitDataPltPlotter
 from .rabicospltplotter import RabiCosDataPltPlotter
+from .powershiftpltplotter import PowerShiftDataPltPlotter
 
 class QuantumPlotPltManager:
     def __init__(self):
@@ -30,6 +31,7 @@ class QuantumPlotPltManager:
         self.plotters["t2fit"] = T2FitDataPltPlotter()
         self.plotters["rabi"] = RabiDataPltPlotter()
         self.plotters["s21peak"] = S21PeakDataPltPlotter()
+        self.plotters["powershift"] = PowerShiftDataPltPlotter()
 
     def get_plotter(self, task_type: str) -> QuantumDataPltPlotter:
         if task_type not in self.plotters:
