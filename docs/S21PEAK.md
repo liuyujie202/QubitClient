@@ -119,25 +119,25 @@ results = client.get_result(response=response_data)
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 from qubitclient.draw.pltmanager import QuantumPlotPltManager
 
-# 使用Plotly绘制
 ply_plot_manager = QuantumPlotPlyManager()
-plt_plot_manager = QuantumPlotPltManager()
-for idx, (result, dict) in enumerate(zip(results, dict_list)):
-    plt_plot_manager.plot_quantum_data(
-        data_type='npy',
-        task_type=TaskName.S21PEAK.value,
-        save_format="png",
-        save_name=savenamelist[idx],
-        result=result,
-        dict=dict
-    )
-    ply_plot_manager.plot_quantum_data(
-        data_type='npy',
-        task_type=TaskName.S21PEAK.value,
-        save_format="html",
-        save_name=savenamelist[idx],
-        result=result,
-        dict=dict
-    )
+    plt_plot_manager = QuantumPlotPltManager()
 
+    for idx, (result, dict) in enumerate(zip(results, dict_list)):
+        save_path_prefix = f"./tmp/client/result_{TaskName.S21PEAK.value}_{savenamelist[idx]}"
+        save_path_png = save_path_prefix + ".png"
+        save_path_html = save_path_prefix + ".html"
+        plt_plot_manager.plot_quantum_data(
+            data_type='npy',
+            task_type=TaskName.S21PEAK.value,
+            save_path=save_path_png,
+            result=result,
+            dict=dict
+        )
+        ply_plot_manager.plot_quantum_data(
+            data_type='npy',
+            task_type=TaskName.S21PEAK.value,
+            save_path=save_path_html,
+            result=result,
+            dict=dict
+        )
 ```
