@@ -12,7 +12,7 @@ class Spectrum2DScopeDataPlyPlotter(QuantumDataPlyPlotter):
     def plot_result_npy(self, **kwargs):
 
         results = kwargs.get('result')
-        dict_param = kwargs.get('dict')
+        dict_param = kwargs.get('dict_param')
 
         data = dict_param.item()
         image = data["image"]
