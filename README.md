@@ -41,7 +41,6 @@ API_KEY = "your-api-key"
 ```
 
 ### 使用示例
-
 #### NNScope功能（曲线分割）
 
 ```python
@@ -101,19 +100,19 @@ results = client.get_result(response=response)
 
 ### NNScope任务
 
-- `NNTaskName.SPECTRUM2D`: 二维频谱数据曲线分割
+- `NNTaskName.SPECTRUM2D`: 二维频谱数据曲线分割，详见 [SPECTRUM2D详细文档](docs/SPECTRUM2D.md)
 
 ### Scope任务
 
-- `TaskName.S21PEAK`: S21参数峰值检测
-- `TaskName.OPTPIPULSE`: 最优π脉冲计算
-- `TaskName.RABI`: Rabi振荡分析
-- `TaskName.RABICOS`: Rabi振荡余弦拟合
-- `TaskName.S21VFLUX`: S21 vs Flux分析
-- `TaskName.SINGLESHOT`: 单次测量分析
-- `TaskName.SPECTRUM`: 频谱分析
-- `TaskName.T1FIT`: T1时间拟合
-- `TaskName.T2FIT`: T2时间拟合
+- `TaskName.S21PEAK`: S21参数峰值检测，详见 [S21PEAK详细文档](docs/S21PEAK.md)
+- `TaskName.OPTPIPULSE`: 最优π脉冲计算，详见 [OPTPIPULSE详细文档](docs/OPTPIPULSE.md)
+- `TaskName.RABI`: Rabi振荡分析，详见 [RABI详细文档](docs/RABI.md)
+- `TaskName.RABICOS`: Rabi振荡余弦拟合，详见 [RABICOS详细文档](docs/RABICOS.md)
+- `TaskName.S21VFLUX`: S21 vs Flux分析，详见 [S21VFLUX详细文档](docs/S21VFLUX.md)
+- `TaskName.SINGLESHOT`: 单次测量分析，详见 [SINGLESHOT详细文档](docs/SINGLESHOT.md)
+- `TaskName.SPECTRUM`: 频谱分析，详见 [SPECTRUM详细文档](docs/SPECTRUM.md)
+- `TaskName.T1FIT`: T1时间拟合，详见 [T1FIT详细文档](docs/T1FIT.md)
+- `TaskName.T2FIT`: T2时间拟合，详见 [T2FIT详细文档](docs/T2FIT.md)
 
 ## 数据格式说明
 
