@@ -52,12 +52,14 @@ def send_npz_to_server(url, api_key,dir_path = "data/33137"):
     # 从文件路径直接加载
     # response = client.request(file_list=file_path_list,task_type=NNTaskName.SPECTRUM2D,curve_type=CurveType.COSINE)
     results = client.get_result(response=response)
+    save_path_prefix = f"./tmp/client/result_{NNTaskName.SPECTRUM2D.value}_{savename}"
+    save_path_png = save_path_prefix + ".png"
+    save_path_html = save_path_prefix + ".html"
     plot_manager = QuantumPlotPlyManager()
     plot_manager.plot_quantum_data(
         data_type='npz',
         task_type=NNTaskName.SPECTRUM2D.value,
-        save_format="html",
-        save_name=savename,
+        save_path=save_path_html,
         results=results,
         dict_list=dict_list,
         file_names = file_names
@@ -66,8 +68,7 @@ def send_npz_to_server(url, api_key,dir_path = "data/33137"):
     plot_manager.plot_quantum_data(
         data_type='npz',
         task_type=NNTaskName.SPECTRUM2D.value,
-        save_format="png",
-        save_name=savename,
+        save_path=save_path_png,
         results=results,
         dict_list=dict_list,
         file_names=file_names
@@ -92,12 +93,14 @@ def send_npy_to_server(url, api_key,file_path = "/home/sunyaqiang/work/QubitClie
     # 2.从文件路径直接加载
     # response = client.request(file_list=[file_path],task_type=NNTaskName.SPECTRUM2D,curve_type=CurveType.COSINE)
     results = client.get_result(response=response)
+    save_path_prefix = f"./tmp/client/result_{NNTaskName.SPECTRUM2D.value}_{savename}"
+    save_path_png = save_path_prefix + ".png"
+    save_path_html = save_path_prefix + ".html"
     plot_manager = QuantumPlotPlyManager()
     plot_manager.plot_quantum_data(
         data_type='npy',
         task_type=NNTaskName.SPECTRUM2D.value,
-        save_format="html",
-        save_name=savename,
+        save_path=save_path_png,
         results=results,
         data_ndarray=data_ndarray
     )
@@ -106,8 +109,7 @@ def send_npy_to_server(url, api_key,file_path = "/home/sunyaqiang/work/QubitClie
     plot_manager.plot_quantum_data(
         data_type='npy',
         task_type=NNTaskName.SPECTRUM2D.value,
-        save_format="png",
-        save_name = savename,
+        save_path=save_path_html,
         results=results,
         data_ndarray=data_ndarray
     )

@@ -13,8 +13,8 @@ class QuantumDataPltPlotter(ABC):
     def plot_result_npz(self, **kwargs):
         pass
 
-    def save_plot(self, fig, task_type: str,save_name: str,save_format: str = "png"):
-        if not os.path.exists("./tmp/client/"):
-            os.mkdir("./tmp/client/")
-        save_path = "./tmp/client/" + "result_" + task_type + "_" + save_name + "." + save_format
-        fig.savefig(save_path)
+    def save_plot(self, fig, save_path: str):
+        directory = os.path.dirname(save_path)
+        if os.path.exists(directory):
+            fig.savefig(save_path)  # save_path  最中存储路径 “./tmp/client/result_s21peak_tmp***.png”
+        return fig

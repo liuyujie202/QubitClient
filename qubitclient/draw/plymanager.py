@@ -47,11 +47,11 @@ class QuantumPlotPlyManager:
 
         return list(self.plotters.keys())
 
-    def plot_quantum_data(self, data_type: str, task_type: str,save_format: str = "html",save_name: str = "tmp0bf97fdf.py_1536",**kwargs):
+    def plot_quantum_data(self, data_type: str, task_type: str,save_path: str,**kwargs):
         plotter = self.get_plotter(task_type)
         if data_type=='npy':
             fig = plotter.plot_result_npy(**kwargs)
         if data_type=='npz':
             fig = plotter.plot_result_npz(**kwargs)
 
-        plotter.save_plot(fig,task_type, save_name,save_format)
+        plotter.save_plot(fig,save_path)

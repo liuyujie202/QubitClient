@@ -126,25 +126,24 @@ results = client.get_result(response=response)
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 from qubitclient.draw.pltmanager import QuantumPlotPltManager
 
-# 使用Plotly绘制
+save_path_prefix = f"./tmp/client/result_{NNTaskName.SPECTRUM2D.value}_{savename}"
+save_path_png = save_path_prefix + ".png"
+save_path_html = save_path_prefix + ".html"
 plot_manager = QuantumPlotPlyManager()
 plot_manager.plot_quantum_data(
-    data_type='npz',
-    task_type=NNTaskName.SPECTRUM2D.value,
-    save_format="html",
-    save_name="spectrum2d_result",
-    results=results,
-    dict_list=dict_list
+  data_type='npy',
+  task_type=NNTaskName.SPECTRUM2D.value,
+  save_path=save_path_png,
+  results=results,
+  data_ndarray=data_ndarray
 )
 
-# 使用Matplotlib绘制
 plot_manager = QuantumPlotPltManager()
 plot_manager.plot_quantum_data(
-    data_type='npz',
-    task_type=NNTaskName.SPECTRUM2D.value,
-    save_format="png",
-    save_name="spectrum2d_result",
-    results=results,
-    dict_list=dict_list
+  data_type='npy',
+  task_type=NNTaskName.SPECTRUM2D.value,
+  save_path=save_path_html,
+  results=results,
+  data_ndarray=data_ndarray
 )
 ```

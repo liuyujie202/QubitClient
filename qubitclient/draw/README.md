@@ -18,7 +18,7 @@
     抽象方法：
         plot_result_npy(): 处理.npy格式数据的抽象方法
         plot_result_npz(): 处理.npz格式数据的抽象方法
-        save_plot(fig, save_name: str = "result_", save_format: str = "html"): 统一保存绘图结果到HTML文件
+        save_plot(fig, save_path: str): 统一保存绘图结果到HTML文件
 
 2. 具体实现类 Spectrum2DDataPlyPlotter‌
 
@@ -46,7 +46,7 @@
         register_plotters(): 注册可用绘图器
         get_plotter(task_type: str): 根据任务类型获取对应绘图器
         list_available_tasks(): 获取可用任务类型列表
-        plot_quantum_data(data_type: str, task_type: str, save_format: str = "html", save_name: str = "tmp0bf97fdf.py_1536", **kwargs): 统一的数据绘图入口
+        plot_quantum_data(data_type: str, task_type: str, save_path: str, **kwargs): 统一的数据绘图入口
 
 # 使用方法‌
 
@@ -61,8 +61,7 @@
     plot_manager.plot_quantum_data(
         data_type='npy',           # 数据格式：npy或npz
         task_type='spectrum2d',    # 任务类型
-        save_format="html",        # 输出格式
-        save_name="my_plot",       # 保存文件名
+        save_path="result.html",        # 保存路径
         results=results_data,      # 绘图数据
         data_ndarray=quantum_data  # 绘图数据
     )
@@ -110,14 +109,15 @@
 
 ## 注意事项‌
 ```python
-    def plot_quantum_data(self, data_type: str, task_type: str, save_format: str = "png", save_name: str = "tmp0bf97fdf.py_1536", **kwargs) -> str:
-
+    def plot_quantum_data(self, data_type: str, task_type: str, save_path: str, **kwargs):
+    save_path_prefix = f"./tmp/client/result_{TaskName.S21PEAK.value}_{savenamelist[idx]}"
+    save_path_png = save_path_prefix + ".png"
+    save_path_html = save_path_prefix + ".html"
     plot_manager = QuantumPlotPlyManager()
     plot_manager.plot_quantum_data(
         data_type='npy',
         task_type=NNTaskName.SPECTRUM2D.value,
-        save_format="html",
-        save_name=savename,
+        save_path=save_path_html,
         results=results,
         data_ndarray=data_ndarray
     )
@@ -126,12 +126,10 @@
     plot_manager.plot_quantum_data(
         data_type='npy',
         task_type=NNTaskName.SPECTRUM2D.value,
-        save_format="png",
-        save_name = savename,
+        save_path=save_path_png,
         results=results,
         data_ndarray=data_ndarray
     )
 ```
-1. 对于plt 和 ply画图，参数只有save_format，分别是png，html，其余无需更改。
+1. 对于plt 和 ply画图，参数只有save_path不同，其余无需更改。
 2. results=results,data_ndarray=data_ndarray，是通过**kwargs 接收的具体关键字参数，需要适配不同的任务
-3. save_name为测试npy/npz的文件名，如tmp6d08e0e9.py_7157.npy，则save_name = "tmp6d08e0e9.py_7157"
