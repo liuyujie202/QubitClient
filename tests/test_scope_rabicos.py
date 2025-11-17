@@ -1,14 +1,3 @@
-# -*- coding: utf-8 -*-
-# tests/test_scope_rabicos.py
-# Author: yaqiangsun
-# Created Time: 2025/11/13
-"""
-测试 RabiCos 峰值检测服务器接口（分批提交路径）
-- 读取 ./data/rabicos 目录下的 .npy 文件
-- 分批发送文件路径
-- 使用服务器返回的 peaks/confs 绘图（Plotly HTML + Matplotlib PNG）
-"""
-
 import os
 import sys
 import json
@@ -21,8 +10,8 @@ if project_root not in sys.path:
 
 from qubitclient import QubitScopeClient, TaskName
 from qubitclient.scope.utils.data_parser import load_npy_file
-from qubitclient.draw.plymanager import QuantumPlotPlyManager
 from qubitclient.draw.pltmanager import QuantumPlotPltManager
+from qubitclient.draw.plymanager import QuantumPlotPlyManager
 
 
 def batch_send_npy_to_server(
@@ -53,7 +42,7 @@ def batch_send_npy_to_server(
         try:
             response = client.request(
                 file_list=batch_paths,
-                task_type=TaskName.RABICOS,  # 关键
+                task_type=TaskName.RABICOS,
             )
         except Exception as e:
             print(f"批次请求失败: {e}")
@@ -66,54 +55,57 @@ def batch_send_npy_to_server(
             continue
 
         for local_idx, file_name in enumerate(batch_files):
+            file_path = batch_paths[local_idx]
+
             if local_idx >= len(server_results):
-                print(f"[{file_name}] 无结果，跳过")
+                print(f"[{file_name}] 无对应结果，跳过")
                 continue
 
             result_item = server_results[local_idx]
             status = result_item.get("status", "unknown")
 
             if status == "failed":
-                print(f"[{file_name}] 服务器失败: {result_item.get('error')}")
+                print(f"[{file_name}] 服务器处理失败: {result_item.get('error')}")
                 continue
             if status != "success":
                 print(f"[{file_name}] 状态异常: {status}")
                 continue
 
-            # 加载本地原始数据用于绘图
+            # 加载本地原始 .npy 数据
             try:
-                data_ndarray = load_npy_file(batch_paths[local_idx])
+                data_ndarray = load_npy_file(file_path)
             except Exception as e:
-                print(f"[{file_name}] 加载失败: {e}")
+                print(f"[{file_name}] 本地数据加载失败: {e}")
                 continue
 
             base_name = os.path.splitext(file_name)[0]
-            save_name = f"rabicos_{base_name}"
+            task_type_value = TaskName.RABICOS.value
+            save_path_prefix = f"./tmp/client/result_{task_type_value}_{base_name}"
+            save_path_png = save_path_prefix + ".png"
+            save_path_html = save_path_prefix + ".html"
 
             try:
-                ply_manager.plot_quantum_data(
-                    data_type="npy",
-                    task_type="rabicos",
-                    save_format="html",
-                    save_name=save_name,
-                    results=result_item,
-                    data_ndarray=data_ndarray,
-                    file_name=file_name,
-                )
+                # Matplotlib PNG
                 plt_manager.plot_quantum_data(
-                    data_type="npy",
-                    task_type="rabicos",
-                    save_format="png",
-                    save_name=save_name,
-                    results=result_item,
-                    data_ndarray=data_ndarray,
-                    file_name=file_name,
+                    data_type='npy',
+                    task_type=task_type_value,
+                    save_path=save_path_png,
+                    result=result_item,          
+                    data_ndarray=data_ndarray,   
+                    file_name=file_name          
                 )
-                print(f"{file_name} → result_{save_name}.html/png 已生成")
+                # Plotly HTML
+                ply_manager.plot_quantum_data(
+                    data_type='npy',
+                    task_type=task_type_value,
+                    save_path=save_path_html,
+                    result=result_item,
+                    data_ndarray=data_ndarray,
+                    file_name=file_name
+                )
+                print(f"{file_name} → {os.path.basename(save_path_html)} 和 {os.path.basename(save_path_png)} 已生成")
             except Exception as e:
                 print(f"[{file_name}] 绘图异常: {e}")
-
-    print(f"\n所有批次处理完成，共 {total} 个文件。")
 
 
 def parse_server_results(raw_result) -> List[dict]:
@@ -133,7 +125,7 @@ def main():
     batch_send_npy_to_server(
         url=API_URL,
         api_key=API_KEY,
-        dir_path="./data/rabi_in_group",
+        dir_path="./data/rabi_in_group",   
         batch_size=5,
     )
 

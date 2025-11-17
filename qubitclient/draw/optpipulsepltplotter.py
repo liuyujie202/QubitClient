@@ -9,11 +9,11 @@ class OptPiPulseDataPltPlotter(QuantumDataPltPlotter):
         super().__init__("optpipulse")
 
     def plot_result_npy(self, **kwargs):
-        results      = kwargs.get('results')
+        result      = kwargs.get('result')
         data_ndarray = kwargs.get('data_ndarray')
         file_name    = kwargs.get('file_name', 'unknown')
 
-        if not results or not data_ndarray:
+        if not result or not data_ndarray:
             fig, ax = plt.subplots()
             ax.text(0.5, 0.5, "No data", ha='center', transform=ax.transAxes)
             return fig
@@ -31,8 +31,8 @@ class OptPiPulseDataPltPlotter(QuantumDataPltPlotter):
         wave_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
                        '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']
 
-        params_list = results.get("params", [])
-        confs_list  = results.get("confs", [])
+        params_list = result.get("params", [])
+        confs_list  = result.get("confs", [])
 
         for q_idx, q_name in enumerate(qubit_names):
             ax = fig.add_subplot(rows, cols, q_idx + 1)
