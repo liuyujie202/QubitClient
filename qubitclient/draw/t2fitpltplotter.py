@@ -9,11 +9,11 @@ class T2FitDataPltPlotter(QuantumDataPltPlotter):
         super().__init__("t2fit")
 
     def plot_result_npy(self, **kwargs):
-        results  = kwargs.get('results')
+        result  = kwargs.get('result')
         data_ndarray = kwargs.get('data_ndarray')
         file_name    = kwargs.get('file_name', 'unknown')
 
-        if not results or not data_ndarray:
+        if not result or not data_ndarray:
             fig, ax = plt.subplots()
             ax.text(0.5, 0.5, "No data", ha='center', transform=ax.transAxes)
             return fig
@@ -28,9 +28,9 @@ class T2FitDataPltPlotter(QuantumDataPltPlotter):
         fig = plt.figure(figsize=(5.8 * cols, 4.8 * rows))
         fig.suptitle(f"T2 Ramsey / Echo Fit – {os.path.splitext(file_name)[0]}", fontsize=14, y=0.96)
 
-        params_list   = results.get("params_list", [])
-        r2_list       = results.get("r2_list", [])
-        fit_data_list = results.get("fit_data_list", [])   # 服务器已插值好的密集曲线
+        params_list   = result.get("params_list", [])
+        r2_list       = result.get("r2_list", [])
+        fit_data_list = result.get("fit_data_list", [])   # 服务器已插值好的密集曲线
 
         for q_idx, q_name in enumerate(qubit_names):
             ax = fig.add_subplot(rows, cols, q_idx + 1)

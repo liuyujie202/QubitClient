@@ -11,11 +11,11 @@ class RabiCosDataPlyPlotter(QuantumDataPlyPlotter):
         super().__init__("rabicos")
 
     def plot_result_npy(self, **kwargs):
-        results      = kwargs.get('results')
+        result      = kwargs.get('result')
         data_ndarray = kwargs.get('data_ndarray')
         file_name    = kwargs.get('file_name', 'unknown')
 
-        if not results or not data_ndarray:
+        if not result or not data_ndarray:
             fig = go.Figure()
             fig.add_annotation(text="No data", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
             return fig
@@ -34,8 +34,8 @@ class RabiCosDataPlyPlotter(QuantumDataPlyPlotter):
             horizontal_spacing=0.08,
         )
 
-        peaks_list = results.get("peaks", [])
-        confs_list = results.get("confs", [])
+        peaks_list = result.get("peaks", [])
+        confs_list = result.get("confs", [])
 
         show_legend = True
         for q_idx, q_name in enumerate(qubit_names):

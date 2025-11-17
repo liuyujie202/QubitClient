@@ -10,11 +10,11 @@ class RabiDataPlyPlotter(QuantumDataPlyPlotter):
         super().__init__("rabifit")
 
     def plot_result_npy(self, **kwargs):
-        results      = kwargs.get('results')
+        result     = kwargs.get('result')
         data_ndarray = kwargs.get('data_ndarray')
         file_name    = kwargs.get('file_name', 'unknown')
 
-        if not results or not data_ndarray:
+        if not result or not data_ndarray:
             fig = go.Figure()
             fig.add_annotation(text="Missing data", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
             return fig
@@ -38,9 +38,9 @@ class RabiDataPlyPlotter(QuantumDataPlyPlotter):
             horizontal_spacing=0.09,
         )
 
-        params_list   = results.get("params_list", [])
-        r2_list       = results.get("r2_list", [])
-        fit_data_list = results.get("fit_data_list", [])
+        params_list   = result.get("params_list", [])
+        r2_list       = result.get("r2_list", [])
+        fit_data_list = result.get("fit_data_list", [])
 
         data_legend = False
         fit_legend  = False

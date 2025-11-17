@@ -11,11 +11,11 @@ class RabiCosDataPltPlotter(QuantumDataPltPlotter):
         super().__init__("rabicos")
 
     def plot_result_npy(self, **kwargs):
-        results      = kwargs.get('results')
+        result      = kwargs.get('result')
         data_ndarray = kwargs.get('data_ndarray')
         file_name    = kwargs.get('file_name', 'unknown')
 
-        if not results or not data_ndarray:
+        if not result or not data_ndarray:
             fig, ax = plt.subplots()
             ax.text(0.5, 0.5, "No data", ha='center', transform=ax.transAxes)
             plt.close(fig)
@@ -37,8 +37,8 @@ class RabiCosDataPltPlotter(QuantumDataPltPlotter):
         fig = plt.figure(figsize=(5.8 * cols, 4.5 * rows))
         fig.suptitle(f"RabiCos Peak Detection – {os.path.splitext(file_name)[0]}", fontsize=14, y=0.96)
 
-        peaks_list = results.get("peaks", [])
-        confs_list = results.get("confs", [])
+        peaks_list = result.get("peaks", [])
+        confs_list = result.get("confs", [])
 
         for q_idx, q_name in enumerate(qubit_names):
             ax = fig.add_subplot(rows, cols, q_idx + 1)

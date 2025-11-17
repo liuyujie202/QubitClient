@@ -10,11 +10,11 @@ class OptPiPulseDataPlyPlotter(QuantumDataPlyPlotter):
         super().__init__("optpipulse")
 
     def plot_result_npy(self, **kwargs):
-        results      = kwargs.get('results')
+        result      = kwargs.get('result')
         data_ndarray = kwargs.get('data_ndarray')
         file_name    = kwargs.get('file_name', 'unknown')
 
-        if not results or not data_ndarray:
+        if not result or not data_ndarray:
             fig = go.Figure()
             fig.add_annotation(text="Missing data", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
             return fig
@@ -45,8 +45,8 @@ class OptPiPulseDataPlyPlotter(QuantumDataPlyPlotter):
                        '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']
 
         # 服务器返回的共峰
-        params_list = results.get("params", [])  # [[p1,p2,...], ...]
-        confs_list  = results.get("confs", [])   # [[c1,c2,...], ...]
+        params_list = result.get("params", [])  # [[p1,p2,...], ...]
+        confs_list  = result.get("confs", [])   # [[c1,c2,...], ...]
 
         # 图例控制标志
         wave_legend_shown = False
