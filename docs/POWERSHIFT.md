@@ -150,25 +150,21 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager
 
 # 使用Plotly绘制（HTML）
 plot_manager = QuantumPlotPlyManager()
-plot_manager.plot_quantum_data(
+ply_plot_manager.plot_quantum_data(
     data_type='npy',
-    task_type='powershift',
-    save_format="html",
-    save_name="powershift_result",
-    results=results,
-    data_ndarray=data_ndarray,
-    file_name="example.npy"
+    task_type=TaskName.POWERSHIFT.value,
+    save_path=save_path_html,
+    result=result,
+    dict=item
 )
 
 # 使用Matplotlib绘制（PNG）
 plot_manager = QuantumPlotPltManager()
-plot_manager.plot_quantum_data(
+plt_plot_manager.plot_quantum_data(
     data_type='npy',
-    task_type='powershift',
-    save_format="png",
-    save_name="powershift_result",
-    results=results,
-    data_ndarray=data_ndarray,
-    file_name="example.npy"
+    task_type=TaskName.POWERSHIFT.value,
+    save_path=save_path_png,
+    result=result,
+    dict=item
 )
 ```

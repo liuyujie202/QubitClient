@@ -71,20 +71,21 @@ def send_npy_to_server(url, api_key, dir_path="data/33137"):
             continue  # 继续下一次循环
         
         # 正常执行绘图任务
+        save_path_prefix = f"./tmp/client/result_{TaskName.POWERSHIFT.value}_{savenamelist[idx]}"
+        save_path_png = save_path_prefix + ".png"
+        save_path_html = save_path_prefix + ".html"
         try:
             plt_plot_manager.plot_quantum_data(
                 data_type='npy',
                 task_type=TaskName.POWERSHIFT.value,
-                save_format="png",
-                save_name=savenamelist[idx],
+                save_path=save_path_png,
                 result=result,
                 dict=item
             )
             ply_plot_manager.plot_quantum_data(
                 data_type='npy',
                 task_type=TaskName.POWERSHIFT.value,
-                save_format="html",
-                save_name=savenamelist[idx],
+                save_path=save_path_html,
                 result=result,
                 dict=item
             )
