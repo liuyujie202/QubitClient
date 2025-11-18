@@ -19,7 +19,7 @@ class SingleShotDataPlyPlotter(QuantumDataPlyPlotter):
     def plot_result_npy(self, **kwargs):
 
         result = kwargs.get('result')
-        dict_param = kwargs.get('dict')
+        dict_param = kwargs.get('dict_param')
 
         dict_param = dict_param.item()
         image = dict_param["image"]

@@ -131,7 +131,7 @@ from qubitclient.draw.plymanager import QuantumPlotPlyManager
 from qubitclient.draw.pltmanager import QuantumPlotPltManager
 ply_plot_manager = QuantumPlotPlyManager()
 plt_plot_manager = QuantumPlotPltManager()
-for idx, (result, dict) in enumerate(zip(results, dict_list)):
+for idx, (result, dict_param) in enumerate(zip(results, dict_list)):
   save_path_prefix = f"./tmp/client/result_{TaskName.SPECTRUM2DSCOPE.value}_{savenamelist[idx]}"
   save_path_png = save_path_prefix + ".png"
   save_path_html = save_path_prefix + ".html"
@@ -140,13 +140,13 @@ for idx, (result, dict) in enumerate(zip(results, dict_list)):
       task_type=TaskName.SPECTRUM2DSCOPE.value,
       save_path=save_path_png,
       result=result,
-      dict=dict
+      dict_param=dict_param
   )
   ply_plot_manager.plot_quantum_data(
       data_type='npy',
       task_type=TaskName.SPECTRUM2DSCOPE.value,
       save_path=save_path_html,
-      dict=dict
+      dict_param=dict_param
   )
 
 

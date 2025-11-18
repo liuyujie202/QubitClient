@@ -12,7 +12,7 @@ class S21PeakDataPlyPlotter(QuantumDataPlyPlotter):
     def plot_result_npy(self, **kwargs):
 
         result_param = kwargs.get('result')
-        dict_param = kwargs.get('dict')
+        dict_param = kwargs.get('dict_param')
         dict_param = dict_param.item()
 
         image = dict_param["image"]
