@@ -10,7 +10,7 @@ class SpectrumDataPlyPlotter(QuantumDataPlyPlotter):
 
     def plot_result_npy(self, **kwargs):
         result = kwargs.get('result')
-        dict_param = kwargs.get('dict')
+        dict_param = kwargs.get('dict_param')
 
         data = dict_param.item()
         image = data["image"]
