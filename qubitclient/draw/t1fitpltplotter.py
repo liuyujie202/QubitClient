@@ -1,7 +1,7 @@
+# src/draw/t1fitpltplotter.py
 from .pltplotter import QuantumDataPltPlotter
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 
 class T1FitDataPltPlotter(QuantumDataPltPlotter):
@@ -9,30 +9,33 @@ class T1FitDataPltPlotter(QuantumDataPltPlotter):
         super().__init__("t1fit")
 
     def plot_result_npy(self, **kwargs):
-        result      = kwargs.get('result')
-        data_ndarray = kwargs.get('data_ndarray')
-        file_name    = kwargs.get('file_name', 'unknown')
+        result     = kwargs.get('result')
+        dict_param = kwargs.get('dict_param')      # 唯一原始数据参数
 
-        if not result or not data_ndarray:
+        if not result or not dict_param:
             fig, ax = plt.subplots()
             ax.text(0.5, 0.5, "No data", ha='center', transform=ax.transAxes)
+            plt.close(fig)
             return fig
 
-        # ---------- 解析 .npy ----------
-        data = data_ndarray.item() if isinstance(data_ndarray, np.ndarray) else data_ndarray
+        data = dict_param.item() if isinstance(dict_param, np.ndarray) else dict_param
         image_dict = data.get("image", {})
         qubit_names = list(image_dict.keys())
-        n_qubits = len(qubit_names)
-        cols = min(3, n_qubits)
-        rows = (n_qubits + cols - 1) // cols
+        if not qubit_names:
+            fig, ax = plt.subplots()
+            ax.text(0.5, 0.5, "No qubits", ha='center', transform=ax.transAxes)
+            plt.close(fig)
+            return fig
+
+        cols = min(3, len(qubit_names))
+        rows = (len(qubit_names) + cols - 1) // cols
 
         fig = plt.figure(figsize=(5.8 * cols, 4.5 * rows))
-        fig.suptitle(f"T1-Fit – {os.path.splitext(file_name)[0]}", fontsize=14, y=0.96)
+        fig.suptitle("T1-Fit", fontsize=14, y=0.96)
 
-        # ---------- 服务器返回 ----------
-        params_list = result.get("params_list", [])   # [[A, T1, B], ...]
-        r2_list     = result.get("r2_list", [])
-        fit_data_list = result.get("fit_data_list", [])   # 每个 qubit 的拟合曲线
+        params_list   = result.get("params_list", [])
+        r2_list       = result.get("r2_list", [])
+        fit_data_list = result.get("fit_data_list", [])
 
         for q_idx, q_name in enumerate(qubit_names):
             ax = fig.add_subplot(rows, cols, q_idx + 1)
@@ -40,14 +43,14 @@ class T1FitDataPltPlotter(QuantumDataPltPlotter):
             if not isinstance(item, (list, tuple)) or len(item) < 2:
                 continue
 
-            x_raw = np.asarray(item[0])          # 时间
-            y_raw = np.asarray(item[1])          # |1> 概率
+            x_raw = np.asarray(item[0])
+            y_raw = np.asarray(item[1])
 
-            # 原始点
+            # 原始数据点
             ax.plot(x_raw, y_raw, 'o', color='orange', markersize=4,
                     label='Data', alpha=0.7)
 
-            # 拟合曲线（服务器已经给出）
+            # 拟合曲线
             if q_idx < len(fit_data_list):
                 fit_y = np.asarray(fit_data_list[q_idx])
                 ax.plot(x_raw, fit_y, '-', color='blue', linewidth=2,

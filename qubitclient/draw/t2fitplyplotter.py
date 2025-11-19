@@ -1,8 +1,8 @@
+# src/draw/t2fitplyplotter.py
 from .plyplotter import QuantumDataPlyPlotter
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-import os
 
 
 class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
@@ -10,16 +10,15 @@ class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
         super().__init__("t2fit")
 
     def plot_result_npy(self, **kwargs):
-        result      = kwargs.get('result')
-        data_ndarray = kwargs.get('data_ndarray')
-        file_name    = kwargs.get('file_name', 'unknown')
+        result     = kwargs.get('result')
+        dict_param = kwargs.get('dict_param')   # 统一使用 dict_param
 
-        if not result or not data_ndarray:
+        if not result or not dict_param:
             fig = go.Figure()
             fig.add_annotation(text="Missing data", xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False)
             return fig
 
-        data = data_ndarray.item() if isinstance(data_ndarray, np.ndarray) else data_ndarray
+        data = dict_param.item() if isinstance(dict_param, np.ndarray) else dict_param
         image_dict = data.get("image", {})
         if not image_dict:
             fig = go.Figure()
@@ -56,7 +55,6 @@ class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
             x_raw = np.asarray(item[0])
             y_raw = np.asarray(item[1])
 
-            # --- 原始散点（长度一致）---
             fig.add_trace(go.Scatter(
                 x=x_raw, y=y_raw,
                 mode='markers',
@@ -67,15 +65,12 @@ class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
             if not data_legend:
                 data_legend = True
 
-            # --- 拟合曲线：生成对应 x_fit ---
             if q_idx < len(fit_data_list):
                 y_fit = np.asarray(fit_data_list[q_idx])
-
-                # 关键修复：如果长度不一致，生成新的 x_fit
                 if len(y_fit) != len(x_raw):
                     x_fit = np.linspace(x_raw.min(), x_raw.max(), len(y_fit))
                 else:
-                    x_fit = x_raw  # 极少数情况相等
+                    x_fit = x_raw
 
                 fig.add_trace(go.Scatter(
                     x=x_fit, y=y_fit,
@@ -87,7 +82,6 @@ class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
                 if not fit_legend:
                     fit_legend = True
 
-            # --- 参数标注 ---
             if q_idx < len(params_list):
                 A, B, T1, T2, w, phi = params_list[q_idx]
                 r2 = r2_list[q_idx] if q_idx < len(r2_list) else 0.0
@@ -96,13 +90,11 @@ class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
                 fig.add_annotation(
                     x=x_raw[0], y=max(y_raw) * 1.08,
                     text=txt, showarrow=False,
-                    font=dict(size=9), align='left',
+                    font=dict(size=9), align="left",
                     bgcolor="rgba(255,255,255,0.8)", bordercolor="gray",
-                    xref=f"x{(q_idx//cols)*cols + (q_idx%cols) + 1}",
-                    yref=f"y{(q_idx//cols)*cols + (q_idx%cols) + 1}"
+                    row=row, col=col
                 )
 
-            # 坐标轴标题
             if row == rows:
                 fig.update_xaxes(title_text="Time", row=row, col=col)
             if col == 1:
@@ -111,7 +103,7 @@ class T2FitDataPlyPlotter(QuantumDataPlyPlotter):
         fig.update_layout(
             height=440 * rows,
             width=540 * cols,
-            title_text=f"T2 Ramsey / Echo Fit – {os.path.splitext(file_name)[0]}",
+            title_text="T2 Ramsey / Echo Fit",
             title_x=0.5,
             legend=dict(font=dict(size=10)),
             margin=dict(l=60, r=60, t=90, b=60)

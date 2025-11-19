@@ -135,28 +135,26 @@ params[i] 和 confs[i] 对应第 i 个量子比特的共峰位置列表；若某
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 from qubitclient.draw.pltmanager import QuantumPlotPltManager
 
-save_path_prefix = f"./tmp/client/result_{TaskName.OPTPIPULSE.value}_{base_name}"
-save_path_png = save_path_prefix + ".png"
-save_path_html = save_path_prefix + ".html"
-
-plt_plot_manager = QuantumPlotPltManager()
-plt_manager.plot_quantum_data(
-    data_type='npy',
-    task_type=TaskName.OPTPIPULSE.value,
-    save_path=save_path_png,
-    result=result_item,          
-    data_ndarray=data_ndarray,   
-    file_name=file_name         
-)
-
 ply_plot_manager = QuantumPlotPlyManager()
-ply_manager.plot_quantum_data(
-    data_type='npy',
-    task_type=TaskName.OPTPIPULSE.value,
-    save_path=save_path_html,
-    result=result_item,
-    data_ndarray=data_ndarray,
-    file_name=file_name
-)
+plt_plot_manager = QuantumPlotPltManager()
+
+for idx, (result, dict_param) in enumerate(zip(results, dict_list)):
+  save_path_prefix = f"./tmp/client/result_{TaskName.OPTPIPULSE.value}_{savenamelist[idx]}"
+  save_path_png = save_path_prefix + ".png"
+  save_path_html = save_path_prefix + ".html"
+  plt_plot_manager.plot_quantum_data(
+      data_type='npy',
+      task_type=TaskName.OPTPIPULSE.value,
+      save_path=save_path_png,
+      result=result,
+      dict_param=dict_param
+  )
+  ply_plot_manager.plot_quantum_data(
+      data_type='npy',
+      task_type=TaskName.OPTPIPULSE.value,
+      save_path=save_path_html,
+      result=result,
+      dict_param=dict_param
+  )
 
 ```
