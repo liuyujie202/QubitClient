@@ -1,7 +1,7 @@
+# src/draw/t2fitpltplotter.py
 from .pltplotter import QuantumDataPltPlotter
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 
 class T2FitDataPltPlotter(QuantumDataPltPlotter):
@@ -9,16 +9,15 @@ class T2FitDataPltPlotter(QuantumDataPltPlotter):
         super().__init__("t2fit")
 
     def plot_result_npy(self, **kwargs):
-        result  = kwargs.get('result')
-        data_ndarray = kwargs.get('data_ndarray')
-        file_name    = kwargs.get('file_name', 'unknown')
+        result     = kwargs.get('result')
+        dict_param = kwargs.get('dict_param')   # 统一使用 dict_param
 
-        if not result or not data_ndarray:
+        if not result or not dict_param:
             fig, ax = plt.subplots()
             ax.text(0.5, 0.5, "No data", ha='center', transform=ax.transAxes)
             return fig
 
-        data = data_ndarray.item() if isinstance(data_ndarray, np.ndarray) else data_ndarray
+        data = dict_param.item() if isinstance(dict_param, np.ndarray) else dict_param
         image_dict = data.get("image", {})
         qubit_names = list(image_dict.keys())
         n_qubits = len(qubit_names)
@@ -26,11 +25,11 @@ class T2FitDataPltPlotter(QuantumDataPltPlotter):
         rows = (n_qubits + cols - 1) // cols
 
         fig = plt.figure(figsize=(5.8 * cols, 4.8 * rows))
-        fig.suptitle(f"T2 Ramsey / Echo Fit – {os.path.splitext(file_name)[0]}", fontsize=14, y=0.96)
+        fig.suptitle("T2 Ramsey / Echo Fit", fontsize=14, y=0.96)
 
         params_list   = result.get("params_list", [])
         r2_list       = result.get("r2_list", [])
-        fit_data_list = result.get("fit_data_list", [])   # 服务器已插值好的密集曲线
+        fit_data_list = result.get("fit_data_list", [])
 
         for q_idx, q_name in enumerate(qubit_names):
             ax = fig.add_subplot(rows, cols, q_idx + 1)
@@ -41,20 +40,16 @@ class T2FitDataPltPlotter(QuantumDataPltPlotter):
             x_raw = np.asarray(item[0])
             y_raw = np.asarray(item[1])
 
-            # 原始数据点
             ax.plot(x_raw, y_raw, 'o', color='orange', markersize=5, label='Data', alpha=0.8)
 
-            # 拟合曲线（修复：生成对应 x_fit）
             if q_idx < len(fit_data_list):
                 y_fit = np.asarray(fit_data_list[q_idx])
                 if len(y_fit) != len(x_raw):
-                    # 重新生成 x 坐标，均匀分布
                     x_fit = np.linspace(x_raw.min(), x_raw.max(), len(y_fit))
                 else:
-                    x_fit = x_raw  # 极少数情况相等
+                    x_fit = x_raw
                 ax.plot(x_fit, y_fit, '-', color='blue', linewidth=2.2, label='Fit')
 
-            # 参数显示
             if q_idx < len(params_list):
                 A, B, T1, T2, w, phi = params_list[q_idx]
                 r2 = r2_list[q_idx] if q_idx < len(r2_list) else 0.0

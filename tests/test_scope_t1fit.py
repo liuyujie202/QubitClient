@@ -1,143 +1,89 @@
 import os
 import sys
-import json
-import logging
-from typing import List
-
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from qubitclient import QubitScopeClient, TaskName
 from qubitclient.scope.utils.data_parser import load_npy_file
-from qubitclient.draw.plymanager import QuantumPlotPlyManager
 from qubitclient.draw.pltmanager import QuantumPlotPltManager
+from qubitclient.draw.plymanager import QuantumPlotPlyManager
 
 
-def batch_send_npy_to_server(
-    url: str,
-    api_key: str,
-    dir_path: str = "data/t1fit",
-    batch_size: int = 5,
-    task_type: TaskName = TaskName.T1FIT,
-):
-    file_names = [f for f in os.listdir(dir_path) if f.endswith(".npy")]
-    if not file_names:
-        print(f"目录 {dir_path} 中未找到 .npy 文件")
+def send_npy_to_server(url, api_key, dir_path="data/t1fit", batch_size=5):
+    savenamelist = []
+    file_names = os.listdir(dir_path)
+    
+    file_path_list = []
+    for file_name in file_names:
+        if file_name.endswith('.npy'):
+            savenamelist.append(os.path.splitext(file_name)[0])
+            file_path = os.path.join(dir_path, file_name)
+            file_path_list.append(file_path)
+    if len(file_path_list) == 0:
         return
 
-    file_path_list = [os.path.join(dir_path, f) for f in file_names]
     client = QubitScopeClient(url=url, api_key=api_key)
+    total = len(file_path_list)
 
-    ply_manager = QuantumPlotPlyManager()
-    plt_manager = QuantumPlotPltManager()
+    ply_plot_manager = QuantumPlotPlyManager()
+    plt_plot_manager = QuantumPlotPltManager()
 
-    total = len(file_names)
     for start_idx in range(0, total, batch_size):
         end_idx = min(start_idx + batch_size, total)
-        batch_files = file_names[start_idx:end_idx]
         batch_paths = file_path_list[start_idx:end_idx]
+        batch_savenames = savenamelist[start_idx:end_idx]
 
-        print(f"\n正在处理批次: [{start_idx + 1}-{end_idx}/{total}] 文件: {batch_files}")
+        print(f"Processing batch [{start_idx+1}-{end_idx}/{total}]")
 
-        try:
-            response = client.request(
-                file_list=batch_paths,
-                task_type=task_type,
-            )
-        except Exception as e:
-            print(f"批次 [{start_idx + 1}-{end_idx}] 请求失败: {e}")
+        dict_list = [load_npy_file(p) for p in batch_paths]
+
+        response = client.request(file_list=dict_list, task_type=TaskName.T1FIT)
+
+        result_data = client.get_result(response)
+        if not result_data:
             continue
 
-        raw_result = client.get_result(response)
-        server_results = parse_server_results(raw_result)
-        if not server_results:
-            print(f"批次 [{start_idx + 1}-{end_idx}] 服务器返回为空，跳过")
+        results = result_data.get("results", [])
+        if not results:
             continue
 
-        for local_idx, file_name in enumerate(batch_files):
-            if local_idx >= len(server_results):
-                print(f"[{file_name}] 服务器未返回结果，跳过绘图")
+        for idx_in_batch, (result, dict_param) in enumerate(zip(results, dict_list)):
+            original_file = file_names[start_idx + idx_in_batch]
+
+            if isinstance(result, dict) and result.get('status') == 'failed':
+                print(f"{original_file} failed: No image data available")
                 continue
 
-            result_item = server_results[local_idx]
-            status = result_item.get("status", "unknown")
-
-            if status == "failed":
-                print(f"[{file_name}] 服务器处理失败: {result_item.get('error', '未知错误')}")
-                continue
-            if status != "success":
-                print(f"[{file_name}] 状态异常: {status}，跳过绘图")
+            if isinstance(result, dict) and not result.get("params_list"):
+                print(f"{original_file} failed: No image data available")
                 continue
 
-            #params_list 为空时直接跳过绘图
-            params_list = result_item.get("params_list", [])
-            if not params_list:
-                print(f"[{file_name}] params_list 为空，无需绘图，跳过")
-                continue
-
-            file_path = batch_paths[local_idx]
-            try:
-                data_ndarray = load_npy_file(file_path)
-            except Exception as e:
-                print(f"[{file_name}] 加载本地数据失败: {e}")
-                continue
-
-            base_name = os.path.splitext(file_name)[0]
-            save_path_prefix = f"./tmp/client/result_{task_type.value}_{base_name}"
-            save_path_png  = save_path_prefix + ".png"
+            save_path_prefix = f"./tmp/client/result_{TaskName.T1FIT.value}_{batch_savenames[idx_in_batch]}"
+            save_path_png = save_path_prefix + ".png"
             save_path_html = save_path_prefix + ".html"
 
-            try:
-                # Matplotlib
-                plt_manager.plot_quantum_data(
-                    data_type='npy',
-                    task_type=task_type.value,
-                    save_path=save_path_png,
-                    result=result_item,
-                    data_ndarray=data_ndarray,
-                    file_name=file_name
-                )
-
-                # Plotly
-                ply_manager.plot_quantum_data(
-                    data_type='npy',
-                    task_type=task_type.value,
-                    save_path=save_path_html,
-                    result=result_item,
-                    data_ndarray=data_ndarray,
-                    file_name=file_name
-                )
-
-                print(f"{file_name} → {os.path.basename(save_path_html)} 和 {os.path.basename(save_path_png)} 已生成")
-            except Exception as e:
-                print(f"[{file_name}] 绘图异常: {e}")
-
-    print(f"\n所有批次处理完成，共 {total} 个文件。")
-
-
-def parse_server_results(raw_result) -> List[dict]:
-    if isinstance(raw_result, str):
-        try:
-            return json.loads(raw_result).get("results", [])
-        except json.JSONDecodeError as e:
-            logging.error(f"JSON 解析失败: {e}")
-            return []
-    elif isinstance(raw_result, dict):
-        return raw_result.get("results", [])
-    return []
+            plt_plot_manager.plot_quantum_data(
+                data_type='npy',
+                task_type=TaskName.T1FIT.value,
+                save_path=save_path_png,
+                result=result,
+                dict_param=dict_param
+            )
+            ply_plot_manager.plot_quantum_data(
+                data_type='npy',
+                task_type=TaskName.T1FIT.value,
+                save_path=save_path_html,
+                result=result,
+                dict_param=dict_param
+            )
+            print(f"Generated: {os.path.basename(save_path_html)} and {os.path.basename(save_path_png)}")
 
 
 def main():
     from config import API_URL, API_KEY
-
-    batch_send_npy_to_server(
-        url=API_URL,
-        api_key=API_KEY,
-        dir_path="data/t1_1d_test",      
-        batch_size=5,
-        task_type=TaskName.T1FIT    
-    )
+    base_dir = "data/t1_1d"
+    send_npy_to_server(API_URL, API_KEY, base_dir, batch_size=1)
 
 
 if __name__ == "__main__":
