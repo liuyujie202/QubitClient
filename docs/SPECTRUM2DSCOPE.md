@@ -146,6 +146,7 @@ for idx, (result, dict_param) in enumerate(zip(results, dict_list)):
       data_type='npy',
       task_type=TaskName.SPECTRUM2DSCOPE.value,
       save_path=save_path_html,
+      result=result,
       dict_param=dict_param
   )
 
