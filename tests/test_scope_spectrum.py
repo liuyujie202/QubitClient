@@ -80,14 +80,14 @@ def send_npy_to_server(url, api_key, dir_path="data/33137"):
                 task_type=TaskName.SPECTRUM.value,
                 save_path=save_path_png,
                 result=result,
-                dict=item
+                dict_param=item
             )
             ply_plot_manager.plot_quantum_data(
                 data_type='npy',
                 task_type=TaskName.SPECTRUM.value,
                 save_path=save_path_html,
                 result=result,
-                dict=item
+                dict_param=item
             )
         except Exception as e:
             print(f"idx {idx} failed: {str(e)}")
