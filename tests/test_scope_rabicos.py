@@ -63,10 +63,6 @@ def send_npy_to_server(url, api_key, dir_path="data/t1fit", batch_size=5):
                 print(f"{original_file} failed: No image data available")
                 continue
 
-            if isinstance(result, dict) and not result.get("params_list"):
-                print(f"{original_file} skipped: params_list is empty")
-                continue
-
             save_path_prefix = f"./tmp/client/result_{TaskName.T1FIT.value}_{batch_savenames[idx_in_batch]}"
             save_path_png = save_path_prefix + ".png"
             save_path_html = save_path_prefix + ".html"
