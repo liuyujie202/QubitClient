@@ -108,11 +108,13 @@ results = client.get_result(response=response)
 - `TaskName.OPTPIPULSE`: 最优π脉冲计算，详见 [OPTPIPULSE详细文档](docs/OPTPIPULSE.md)
 - `TaskName.RABI`: Rabi振荡分析，详见 [RABI详细文档](docs/RABI.md)
 - `TaskName.RABICOS`: Rabi振荡余弦拟合，详见 [RABICOS详细文档](docs/RABICOS.md)
+- `TaskName.RAMSY`: RAMSY衰减震荡余弦拟合，详见 [RABICOS详细文档](docs/RABICOS.md)
 - `TaskName.S21VFLUX`: S21 vs Flux分析，详见 [S21VFLUX详细文档](docs/S21VFLUX.md)
 - `TaskName.SINGLESHOT`: 单次测量分析，详见 [SINGLESHOT详细文档](docs/SINGLESHOT.md)
 - `TaskName.SPECTRUM`: 频谱分析，详见 [SPECTRUM详细文档](docs/SPECTRUM.md)
 - `TaskName.T1FIT`: T1时间拟合，详见 [T1FIT详细文档](docs/T1FIT.md)
 - `TaskName.T2FIT`: T2时间拟合，详见 [T2FIT详细文档](docs/T2FIT.md)
+- `TaskName.POWERSHIFT`: 分析功率偏移曲线，详见 [POWERSHIFT详细文档](docs/POWERSHIFT.md)
 
 ## 数据格式说明
 

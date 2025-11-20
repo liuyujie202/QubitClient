@@ -143,6 +143,7 @@ class TaskName(Enum):
     S21PEAK = "s21peak"
     OPTPIPULSE = "optpipulse"
     RABI = "rabi"
+    RAMSY = "rabi"
     RABICOS = "rabicos"
     S21VFLUX = "s21vflux"
     SINGLESHOT = "singleshot"
