@@ -113,6 +113,7 @@ results = client.get_result(response=response)
 - `TaskName.SPECTRUM`: 频谱分析，详见 [SPECTRUM详细文档](docs/SPECTRUM.md)
 - `TaskName.T1FIT`: T1时间拟合，详见 [T1FIT详细文档](docs/T1FIT.md)
 - `TaskName.T2FIT`: T2时间拟合，详见 [T2FIT详细文档](docs/T2FIT.md)
+- `TaskName.POWERSHIFT`: 分析功率偏移曲线，详见 [POWERSHIFT详细文档](docs/POWERSHIFT.md)
 
 ## 数据格式说明
 
