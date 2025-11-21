@@ -31,7 +31,7 @@ def send_npy_to_server(url, api_key, dict_list):
     savenamelist = []
     client = QubitScopeClient(url=url, api_key=api_key)
         # 使用从文件路径加载后的对象，格式为np.ndarray，多个组合成list
-    response = client.request(file_list=dict_list, task_type=TaskName.S21VFLUX)
+    response = client.request(file_list=dict_list, task_type=TaskName.SINGLESHOT)
     print(response)
 
     # === 解析结果并绘图（每个文件单独生成 HTML）===
@@ -50,39 +50,36 @@ def send_npy_to_server(url, api_key, dict_list):
         data = dict_param.item()
         image = data["image"]
         q_list = image.keys()
-        coscurves_list = result['coscurves_list']
-        cosconfs_list = result['cosconfs_list']
-        lines_list = result['lines_list']
-        lineconfs_list = result['lineconfs_list']
+        threshold_list = result['threshold_list']
+        sep_score_list = result['sep_score_list']
+        phi_list = result['phi_list']
+        signal_list = result['signal_list']
+        idle_list = result['idle_list']
+        params_list = result['params_list']
+        std_list = result['std_list']
+        cdf_list = result['cdf_list']
+
         trans_single_npy=[]
         for idx, q_name in enumerate(q_list):
             image_q = image[q_name]
-            volt = image_q[0]
-            freq = image_q[1]
-            s = image_q[2]
-            volt_grid, freq_grid = np.meshgrid(volt, freq)
-            data_list = np.column_stack([
-                volt_grid.ravel(),  # 横坐标x (电压)
-                freq_grid.ravel(),  # 纵坐标y (频率)
-                s.ravel()  # 值s (S参数)
-            ]).tolist()
-            lable_list=[]
-            line_sum=0
-            for i in range(len(coscurves_list[idx])):
-                line_sum+=1
-                lable_list.append({
-                    "name":f"Line{line_sum}",
-                    "conf":cosconfs_list[idx][i],
-                    "data":coscurves_list[idx][i]
-                })
+            s0 = image_q[0]
+            s1 = image_q[1]
+            data_list = [[complex(x), complex(y)] for x, y in zip(s0, s1)]
 
-            for i in range(len(lines_list[idx])):
-                line_sum+=1
-                lable_list.append({
-                    "name":f"Line{line_sum}",
-                    "conf":lineconfs_list[idx][i],
-                    "data":lines_list[idx][i]
-                })
+
+            lable_list=[]
+            lable_list.append({
+                "threshold_list":threshold_list[idx],
+                "sep_score_list":sep_score_list[idx],
+                "phi_list":phi_list[idx],
+                "signal_list":signal_list[idx],
+                "idle_list":idle_list[idx],
+                "params_list":params_list[idx],
+                "std_list" :std_list[idx],
+                "cdf_list": cdf_list[idx]
+            })
+
+
             trans_single_npy.append({
                 "data":data_list,
                 "label":lable_list
@@ -93,7 +90,7 @@ def send_npy_to_server(url, api_key, dict_list):
 
 def main():
     from config import API_URL, API_KEY
-    base_dir = "./tmp/s21vlux"
+    base_dir = "./tmp/singleshot"
     file_names = os.listdir(base_dir)
     file_path_list = []
     for file_name in file_names:

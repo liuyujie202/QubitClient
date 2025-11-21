@@ -11,14 +11,15 @@
             ],
         "label":[
             {
-                    "name":"Line1", // 名称
+                    "name":"Cosline1", // 名称
                     "conf":0.26, // 置信度
-                    "data":[[x,y],[x,y],[x,y]] // 线上的点集合
+                    "compress":0.26, // 压缩
+                    "data":[[x,y],[x,y],[x,y]]// 线上的点集合
             },
             {
-                    "name":"Line2", // 名称
+                    "name":"Line1", // 名称
                     "conf":0.26, // 置信度
-                    "data":[[x,y],[x,y],[x,y]] // 线上的点集合
+                    "data":[[x,y],[x,y],[x,y]]// 线上的点集合
             }
         ]
     }, //单个npy文件的单个通道

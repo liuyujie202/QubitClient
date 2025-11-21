@@ -31,7 +31,7 @@ def send_npy_to_server(url, api_key, dict_list):
     savenamelist = []
     client = QubitScopeClient(url=url, api_key=api_key)
         # 使用从文件路径加载后的对象，格式为np.ndarray，多个组合成list
-    response = client.request(file_list=dict_list, task_type=TaskName.S21VFLUX)
+    response = client.request(file_list=dict_list, task_type=TaskName.SPECTRUM2DSCOPE)
     print(response)
 
     # === 解析结果并绘图（每个文件单独生成 HTML）===
@@ -50,16 +50,20 @@ def send_npy_to_server(url, api_key, dict_list):
         data = dict_param.item()
         image = data["image"]
         q_list = image.keys()
-        coscurves_list = result['coscurves_list']
-        cosconfs_list = result['cosconfs_list']
+        coslines_list = result['params']
+        cosconfs_list = result['confs']
+        coscompress_list = result['coscompress_list']
         lines_list = result['lines_list']
         lineconfs_list = result['lineconfs_list']
         trans_single_npy=[]
+
         for idx, q_name in enumerate(q_list):
             image_q = image[q_name]
-            volt = image_q[0]
-            freq = image_q[1]
-            s = image_q[2]
+
+            volt = image_q[1]
+            freq = image_q[2]
+            s = np.abs(image_q[0])
+
             volt_grid, freq_grid = np.meshgrid(volt, freq)
             data_list = np.column_stack([
                 volt_grid.ravel(),  # 横坐标x (电压)
@@ -67,15 +71,16 @@ def send_npy_to_server(url, api_key, dict_list):
                 s.ravel()  # 值s (S参数)
             ]).tolist()
             lable_list=[]
-            line_sum=0
-            for i in range(len(coscurves_list[idx])):
-                line_sum+=1
+            cosline_sum=0
+            for i in range(len(coslines_list[idx])):
+                cosline_sum+=1
                 lable_list.append({
-                    "name":f"Line{line_sum}",
+                    "name":f"Cosline{cosline_sum}",
                     "conf":cosconfs_list[idx][i],
-                    "data":coscurves_list[idx][i]
+                    "compress": coscompress_list[idx][i],
+                    "data":coslines_list[idx][i]
                 })
-
+            line_sum=0
             for i in range(len(lines_list[idx])):
                 line_sum+=1
                 lable_list.append({
@@ -93,7 +98,7 @@ def send_npy_to_server(url, api_key, dict_list):
 
 def main():
     from config import API_URL, API_KEY
-    base_dir = "./tmp/s21vlux"
+    base_dir = "./tmp/spectrum2dscope"
     file_names = os.listdir(base_dir)
     file_path_list = []
     for file_name in file_names:
