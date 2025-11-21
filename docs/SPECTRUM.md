@@ -144,7 +144,7 @@ ply_plot_manager.plot_quantum_data(
     task_type=TaskName.SPECTRUM.value,
     save_path=save_path_html,
     result=result,
-    dict=item
+    dict_param=item
 )
 
 # 使用Matplotlib绘制（PNG）
@@ -154,6 +154,6 @@ plt_plot_manager.plot_quantum_data(
     task_type=TaskName.SPECTRUM.value,
     save_path=save_path_png,
     result=result,
-    dict=item
+    dict_param=item
 )
 ```
