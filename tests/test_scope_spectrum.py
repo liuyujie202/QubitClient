@@ -27,7 +27,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 
 
-def send_npy_to_server(url, api_key, dir_path="data/33137"):
+def send_spectrum_npy_to_server(url, api_key, dir_path="data/33137"):
     # get all file in dir
     savenamelist = []
     file_names = os.listdir(dir_path)

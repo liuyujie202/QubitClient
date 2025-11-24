@@ -23,7 +23,7 @@ from qubitclient.scope.utils.data_parser import load_npy_file
 
 
 
-def send_npy_to_server(url, api_key,dir_path = "data/33137"):
+def send_task_npy_to_server(url, api_key,dir_path = "data/33137"):
 
     # get all file in dir
     file_names = os.listdir(dir_path)
@@ -59,7 +59,7 @@ def main():
     from config import API_URL, API_KEY
 
     base_dir = "/home/sunyaqiang/work/QubitScope/source/opt_pipulse/test/data/"
-    send_npy_to_server(API_URL, API_KEY, base_dir)
+    send_task_npy_to_server(API_URL, API_KEY, base_dir)
 
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 
 
-def send_npy_to_server(url, api_key, dir_path="data/33137"):
+def send_s21vflux_npy_to_server(url, api_key, dir_path="data/33137"):
     # get all file in dir
     savenamelist = []
     file_names = os.listdir(dir_path)
@@ -89,7 +89,7 @@ def main():
     from config import API_URL, API_KEY
 
     base_dir = "./tmp/s21vlux"
-    send_npy_to_server(API_URL, API_KEY, base_dir)
+    send_s21vflux_npy_to_server(API_URL, API_KEY, base_dir)
 
 
 if __name__ == "__main__":

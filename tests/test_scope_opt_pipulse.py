@@ -11,7 +11,7 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 
 
-def send_npy_to_server(url, api_key, dir_path="data/opt_pipulse", batch_size=5):
+def send_optpipulse_npy_to_server(url, api_key, dir_path="data/opt_pipulse", batch_size=5):
     savenamelist = []
     file_names = os.listdir(dir_path)
     
@@ -88,7 +88,7 @@ def send_npy_to_server(url, api_key, dir_path="data/opt_pipulse", batch_size=5):
 def main():
     from config import API_URL, API_KEY
     base_dir = "data/opt_pipulse"
-    send_npy_to_server(API_URL, API_KEY, base_dir, batch_size=5)
+    send_optpipulse_npy_to_server(API_URL, API_KEY, base_dir, batch_size=5)
 
 
 if __name__ == "__main__":
