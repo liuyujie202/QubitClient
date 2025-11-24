@@ -10,7 +10,7 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 
 
-def send_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5):
+def send_rabi_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5):
     savenamelist = []
     file_names = os.listdir(dir_path)
     
@@ -83,7 +83,7 @@ def send_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5):
 def main():
     from config import API_URL, API_KEY
     base_dir = "data/ramsey"
-    send_npy_to_server(API_URL, API_KEY, base_dir, batch_size=1)
+    send_rabi_npy_to_server(API_URL, API_KEY, base_dir, batch_size=1)
 
 
 if __name__ == "__main__":

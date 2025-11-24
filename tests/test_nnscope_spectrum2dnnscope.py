@@ -25,7 +25,7 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager  #using matplotlib
 from qubitclient.draw.plymanager import QuantumPlotPlyManager #using plotly draw NPY/NPZ data
 
 
-def send_npz_to_server(url, api_key,dir_path = "data/33137"):
+def send_spectrum2dnnscope_npz_to_server(url, api_key,dir_path = "data/33137"):
 
     # get all file in dir
     file_names = os.listdir(dir_path)
@@ -76,7 +76,7 @@ def send_npz_to_server(url, api_key,dir_path = "data/33137"):
     print(results)
 
 
-def send_npy_to_server(url, api_key,file_path = "/home/sunyaqiang/work/QubitClient/tmp/npyfile/tmp0bf97fdf.py_1536.npy"):
+def send_spectrum2dnnscope_npy_to_server(url, api_key,file_path = "/home/sunyaqiang/work/QubitClient/tmp/npyfile/tmp0bf97fdf.py_1536.npy"):
 
     # dict_list, name_list = convert_spectrum_npy2npz(file_path)
     base_name = os.path.basename(file_path)
@@ -126,10 +126,10 @@ def main():
 
     # 1. npz file.
     base_dir = "data/1829"
-    send_npz_to_server(API_URL, API_KEY, base_dir)
+    send_spectrum2dnnscope_npz_to_server(API_URL, API_KEY, base_dir)
     # 2. npy file.
     # file_path = "/media/lining/d7a0fb11-79c9-4c24-8500-1384fde9fe6d/projects/quantum/client_1101/QubitClient_1101/tests/tmp/npyfile/tmp6d08e0e9.py_7157.npy"
-    # send_npy_to_server(API_URL, API_KEY, file_path)
+    # send_spectrum2dnnscope_npy_to_server(API_URL, API_KEY, file_path)
 
 
 

@@ -24,7 +24,10 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager  # using matplotli
 from qubitclient.draw.plymanager import QuantumPlotPlyManager  # using plotly draw NPY/NPZ data
 
 import numpy as np
-def send_npz_to_server(url, api_key, dict_list):
+
+
+
+def transform_spectrum2dnnscope_npz_and_processed_data(url, api_key, dict_list):
     # get all file in dir
 
     client = QubitNNScopeClient(url=url, api_key=api_key)
@@ -73,7 +76,7 @@ def send_npz_to_server(url, api_key, dict_list):
     return trans_all_npz
 
 
-def send_npy_to_server(url, api_key,data_ndarray):
+def transform_spectrum2dnnscope_npy_and_processed_data(url, api_key,data_ndarray):
 
 
     client = QubitNNScopeClient(url=url, api_key=api_key)
@@ -140,7 +143,7 @@ def main():
         content = load_npz_file(file_path)
         dict_list.append(content)
 
-    trans_all_npz = send_npz_to_server(API_URL, API_KEY, dict_list)
+    trans_all_npz = transform_spectrum2dnnscope_npz_and_processed_data(API_URL, API_KEY, dict_list)
 
 
     # 2. npy file.
@@ -149,7 +152,7 @@ def main():
     base_name = os.path.basename(file_path)
     data_ndarray = np.load(file_path, allow_pickle=True)
 
-    trans_single_npy = send_npy_to_server(API_URL, API_KEY, data_ndarray)
+    trans_single_npy = transform_spectrum2dnnscope_npy_and_processed_data(API_URL, API_KEY, data_ndarray)
 
 
 if __name__ == "__main__":

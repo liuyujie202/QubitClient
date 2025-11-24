@@ -27,7 +27,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 
 
-def send_npy_to_server(url, api_key, dict_list):
+def transform_s21peak_npy_and_processed_data(url, api_key, dict_list):
     savenamelist = []
     client = QubitScopeClient(url=url, api_key=api_key)
         # 使用从文件路径加载后的对象，格式为np.ndarray，多个组合成list
@@ -92,7 +92,7 @@ def main():
     for file_path in file_path_list:
         content = load_npy_file(file_path)
         dict_list.append(content)
-    trans_all_npy = send_npy_to_server(API_URL, API_KEY, dict_list)  # trans_all_npy的数据格式参考format_s21vflux.json
+    trans_all_npy = transform_s21peak_npy_and_processed_data(API_URL, API_KEY, dict_list)  # trans_all_npy的数据格式参考format_s21vflux.json
 
 
 if __name__ == "__main__":
