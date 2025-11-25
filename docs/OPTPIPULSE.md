@@ -75,7 +75,7 @@ results = client.get_result(response=response)
   "type": "optpipulse",
   "results": [
     {
-      "peaks": [[float], ...],
+      "params": [[float], ...],
       "confs": [[float], ...],
       "status": "success" | "failed"
     },
