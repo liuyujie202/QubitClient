@@ -89,7 +89,6 @@ def transform_spectrum_npy_and_processed_data(url, api_key, dict_list):
         
         # 添加单个npy文件的所有通道数据
         trans_all_npy.append(trans_single_npy)
-        print(trans_single_npy)
     
     return trans_all_npy
 
