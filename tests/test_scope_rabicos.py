@@ -10,7 +10,7 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 
 
-def send_rabicos_npy_to_server(url, api_key, dir_path="data/t1fit", batch_size=5):
+def send_rabicos_npy_to_server(url, api_key, dir_path="data/rabicos", batch_size=5):
     savenamelist = []
     file_names = os.listdir(dir_path)
     
@@ -42,7 +42,7 @@ def send_rabicos_npy_to_server(url, api_key, dir_path="data/t1fit", batch_size=5
             content = load_npy_file(file_path)
             dict_list.append(content)
 
-        response = client.request(file_list=dict_list, task_type=TaskName.T1FIT)
+        response = client.request(file_list=dict_list, task_type=TaskName.RABICOS)
 
         if hasattr(response, 'parsed'):
             response_data = response.parsed
@@ -63,20 +63,20 @@ def send_rabicos_npy_to_server(url, api_key, dir_path="data/t1fit", batch_size=5
                 print(f"{original_file} failed: No image data available")
                 continue
 
-            save_path_prefix = f"./tmp/client/result_{TaskName.T1FIT.value}_{batch_savenames[idx_in_batch]}"
+            save_path_prefix = f"./tmp/client/result_{TaskName.RABICOS.value}_{batch_savenames[idx_in_batch]}"
             save_path_png = save_path_prefix + ".png"
             save_path_html = save_path_prefix + ".html"
 
             plt_plot_manager.plot_quantum_data(
                 data_type='npy',
-                task_type=TaskName.T1FIT.value,
+                task_type=TaskName.RABICOS.value,
                 save_path=save_path_png,
                 result=result,
                 dict_param=dict_param
             )
             ply_plot_manager.plot_quantum_data(
                 data_type='npy',
-                task_type=TaskName.T1FIT.value,
+                task_type=TaskName.RABICOS.value,
                 save_path=save_path_html,
                 result=result,
                 dict_param=dict_param
@@ -86,7 +86,7 @@ def send_rabicos_npy_to_server(url, api_key, dir_path="data/t1fit", batch_size=5
 
 def main():
     from config import API_URL, API_KEY
-    base_dir = "data/t1_1d"
+    base_dir = "data/rabi_in_group_test"
     send_rabicos_npy_to_server(API_URL, API_KEY, base_dir, batch_size=5)
 
 
