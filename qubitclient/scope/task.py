@@ -96,6 +96,11 @@ def rabi(client,files: File):
     response: Response[BodyRabiApiV1TasksScopeRabiPost] = rabi_api_v1_tasks_scope_rabi_post.sync_detailed(client=client,body=body)
     return response
 @task_register
+def ramsy(client,files: File):
+    body: BodyRabiApiV1TasksScopeRabiPost = BodyRabiApiV1TasksScopeRabiPost(files=files)
+    response: Response[BodyRabiApiV1TasksScopeRabiPost] = rabi_api_v1_tasks_scope_rabi_post.sync_detailed(client=client,body=body)
+    return response
+@task_register
 def rabicos(client,files: File):
     body: BodyRabicosApiV1TasksScopeRabicospeakPost = BodyRabicosApiV1TasksScopeRabicospeakPost(files=files)
     response: Response[BodyRabicosApiV1TasksScopeRabicospeakPost] = rabicos_api_v1_tasks_scope_rabicospeak_post.sync_detailed(client=client,body=body)
@@ -143,7 +148,7 @@ class TaskName(Enum):
     S21PEAK = "s21peak"
     OPTPIPULSE = "optpipulse"
     RABI = "rabi"
-    RAMSY = "rabi"
+    RAMSY = "ramsy"
     RABICOS = "rabicos"
     S21VFLUX = "s21vflux"
     SINGLESHOT = "singleshot"
