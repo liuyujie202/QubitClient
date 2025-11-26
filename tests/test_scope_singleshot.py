@@ -84,6 +84,7 @@ def send_singleshot_npy_to_server(url, api_key, dir_path="data/33137"):
             result=result,
             dict_param=dict_param
         )
+        # if want to show plot like plt.show(), you can use this
         # fig_plt.show()
 
 
