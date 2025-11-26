@@ -98,7 +98,7 @@ def main():
     from config import API_URL, API_KEY
 
     base_dir = "./data"
-    send_npy_to_server(API_URL, API_KEY, base_dir)
+    send_spectrum_npy_to_server(API_URL, API_KEY, base_dir)
 
 
 if __name__ == "__main__":
