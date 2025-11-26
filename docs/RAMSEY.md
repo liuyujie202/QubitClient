@@ -1,8 +1,8 @@
-# RABI 任务接口文档
+# RAMSEY 任务接口文档
 
 ## 概述
 
-RABI 是 Scope 中的一个任务，用于对量子比特的进行 **指数衰减 + 余弦振荡** 拟合，返回每个量子比特的拟合参数、拟合曲线、R² 拟合优度及处理状态
+RAMSEY 是 Scope 中的一个任务，用于对量子比特的进行 **指数衰减 + 余弦振荡** 拟合，返回每个量子比特的拟合参数、拟合曲线、R² 拟合优度及处理状态
 
 $$
 y = A \cdot e^{-x / T1} \cdot \cos(2\pi w x + \phi) + B
@@ -25,7 +25,7 @@ client = QubitScopeClient(url="http://your-server-address:port", api_key="your-a
 | 参数名      | 类型                                      | 必需 | 描述                                                                 |
 |-------------|-------------------------------------------|------|----------------------------------------------------------------------|
 | `file_list` | `list[str \| dict[str, np.ndarray]]`      | 是   | 数据文件列表，支持 `.npy` 文件路径或 `numpy` 数组                     |
-| `task_type` | `TaskName`                                | 是   | 任务类型，固定为 `TaskName.RABI`                                    |                             |
+| `task_type` | `TaskName`                                | 是   | 任务类型，固定为 `TaskName.RAMSEY`                                    |                             |
 
 ### 数据格式
 
@@ -53,8 +53,8 @@ client = QubitScopeClient(url="http://your-server-address:port", api_key="your-a
 ```python
 # 使用文件路径
 response = client.request(
-    file_list=["data/rabi/file1.npy", "data/rabi/file2.npy"],
-    task_type=TaskName.RABI
+    file_list=["data/ramsey/file1.npy", "data/ramsey/file2.npy"],
+    task_type=TaskName.RAMSEY
 )
 
 # 使用numpy数组
@@ -62,7 +62,7 @@ import numpy as np
 data_ndarray = np.load("file1.npy", allow_pickle=True)
 response = client.request(
     file_list=[data_ndarray],
-    task_type=TaskName.RABI
+    task_type=TaskName.RAMSEY
 )
 ```
 
@@ -108,7 +108,7 @@ r2_list[i]: 第 i 个量子比特的 R² 拟合优度
 
 ```python
 {
-  "type": "rabi",
+  "type": "ramsey",
   "results": [
     {
       "params_list": [
@@ -139,19 +139,19 @@ ply_plot_manager = QuantumPlotPlyManager()
 plt_plot_manager = QuantumPlotPltManager()
 
 for idx, (result, dict_param) in enumerate(zip(results, dict_list)):
-  save_path_prefix = f"./tmp/client/result_{TaskName.RABI.value}_{savenamelist[idx]}"
+  save_path_prefix = f"./tmp/client/result_{TaskName.RAMSEY.value}_{savenamelist[idx]}"
   save_path_png = save_path_prefix + ".png"
   save_path_html = save_path_prefix + ".html"
   plt_plot_manager.plot_quantum_data(
       data_type='npy',
-      task_type=TaskName.RABI.value,
+      task_type=TaskName.RAMSEY.value,
       save_path=save_path_png,
       result=result,
       dict_param=dict_param
   )
   ply_plot_manager.plot_quantum_data(
       data_type='npy',
-      task_type=TaskName.RABI.value,
+      task_type=TaskName.RAMSEY.value,
       save_path=save_path_html,
       result=result,
       dict_param=dict_param

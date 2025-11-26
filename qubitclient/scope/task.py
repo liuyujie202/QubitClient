@@ -35,11 +35,12 @@ def load_from_dict(dict_list: list[dict]):
     files = []
     for index, dict_obj in enumerate(dict_list):
         with io.BytesIO() as buffer:
-            np.savez(buffer, **dict_obj)
+            # np.savez(buffer, **dict_obj) # save xxx.npz
+            np.save(buffer, dict_obj)
             bytes_obj = buffer.getvalue()
             # 假设File类定义如下：
             # File(payload=bytes内容, file_name=字符串)
-            files.append(File(payload=bytes_obj, file_name=f"file_{index}.npz"))
+            files.append(File(payload=bytes_obj, file_name=f"file_{index}.npy"))
     return files
 
 def load_from_ndarray(ndarray_list: list[np.ndarray]):
@@ -96,7 +97,7 @@ def rabi(client,files: File):
     response: Response[BodyRabiApiV1TasksScopeRabiPost] = rabi_api_v1_tasks_scope_rabi_post.sync_detailed(client=client,body=body)
     return response
 @task_register
-def ramsy(client,files: File):
+def ramsey(client,files: File):
     body: BodyRabiApiV1TasksScopeRabiPost = BodyRabiApiV1TasksScopeRabiPost(files=files)
     response: Response[BodyRabiApiV1TasksScopeRabiPost] = rabi_api_v1_tasks_scope_rabi_post.sync_detailed(client=client,body=body)
     return response
@@ -148,7 +149,7 @@ class TaskName(Enum):
     S21PEAK = "s21peak"
     OPTPIPULSE = "optpipulse"
     RABI = "rabi"
-    RAMSY = "ramsy"
+    RAMSEY = "ramsey"
     RABICOS = "rabicos"
     S21VFLUX = "s21vflux"
     SINGLESHOT = "singleshot"

@@ -1,12 +1,11 @@
-# src/draw/rabipltplotter.py
 from .pltplotter import QuantumDataPltPlotter
 import matplotlib.pyplot as plt
 import numpy as np
 
 
-class RabiDataPltPlotter(QuantumDataPltPlotter):
+class RamseyDataPltPlotter(QuantumDataPltPlotter):
     def __init__(self):
-        super().__init__("rabi")
+        super().__init__("ramsey")
 
     def plot_result_npy(self, **kwargs):
         result     = kwargs.get('result')
@@ -25,7 +24,7 @@ class RabiDataPltPlotter(QuantumDataPltPlotter):
         rows = (len(qubit_names) + cols - 1) // cols
 
         fig = plt.figure(figsize=(5.8 * cols, 4.8 * rows))
-        fig.suptitle("Rabi Oscillation Fit", fontsize=14, y=0.96)
+        fig.suptitle("Ramsey Oscillation Fit", fontsize=14, y=0.96)
 
         params_list   = result.get("params_list", [])
         r2_list       = result.get("r2_list", [])

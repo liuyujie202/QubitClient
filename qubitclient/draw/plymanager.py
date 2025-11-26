@@ -8,7 +8,7 @@ from .spectrum2dscopeplyplotter import Spectrum2DScopeDataPlyPlotter
 from .spectrumplyplotter import SpectrumDataPlyPlotter
 
 from .optpipulseplyplotter import OptPiPulseDataPlyPlotter
-from .rabiplyplotter import RabiDataPlyPlotter
+from .ramseyplyplotter import RamseyDataPlyPlotter
 from .t1fitplyplotter import T1FitDataPlyPlotter
 from .t2fitplyplotter import T2FitDataPlyPlotter
 from .rabicosplyplotter import RabiCosDataPlyPlotter
@@ -33,7 +33,7 @@ class QuantumPlotPlyManager:
         self.plotters["rabicos"] = RabiCosDataPlyPlotter()
         self.plotters["t1fit"] = T1FitDataPlyPlotter()
         self.plotters["t2fit"] = T2FitDataPlyPlotter()
-        self.plotters["rabi"] = RabiDataPlyPlotter()
+        self.plotters["ramsey"] = RamseyDataPlyPlotter()
         self.plotters["s21peak"] = S21PeakDataPlyPlotter()
         self.plotters["powershift"] = PowerShiftDataPlyPlotter()
 

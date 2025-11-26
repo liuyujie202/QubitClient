@@ -10,9 +10,9 @@ from qubitclient import TaskName
 
 from qubitclient.scope.utils.data_parser import load_npy_file
 
-def transform_rabi_npy_and_processed_data(url, api_key, dict_list):
+def transform_ramsey_npy_and_processed_data(url, api_key, dict_list):
     client = QubitScopeClient(url=url, api_key=api_key)
-    response = client.request(file_list=dict_list, task_type=TaskName.RABI)
+    response = client.request(file_list=dict_list, task_type=TaskName.RAMSEY)
     print(response)
 
     if hasattr(response, 'parsed'):
@@ -84,7 +84,7 @@ def main():
         content = load_npy_file(file_path)
         dict_list.append(content)
 
-    trans_all_npy = transform_rabi_npy_and_processed_data(API_URL, API_KEY, dict_list)
+    trans_all_npy = transform_ramsey_npy_and_processed_data(API_URL, API_KEY, dict_list)
     print("trans_all_npy:")
     print(trans_all_npy)
 
