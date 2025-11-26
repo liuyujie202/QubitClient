@@ -55,3 +55,4 @@ class QuantumPlotPlyManager:
             fig = plotter.plot_result_npz(**kwargs)
 
         plotter.save_plot(fig,save_path)
+        return fig
