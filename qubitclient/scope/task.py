@@ -35,11 +35,12 @@ def load_from_dict(dict_list: list[dict]):
     files = []
     for index, dict_obj in enumerate(dict_list):
         with io.BytesIO() as buffer:
-            np.savez(buffer, **dict_obj)
+            # np.savez(buffer, **dict_obj) # save xxx.npz
+            np.save(buffer, dict_obj)
             bytes_obj = buffer.getvalue()
             # 假设File类定义如下：
             # File(payload=bytes内容, file_name=字符串)
-            files.append(File(payload=bytes_obj, file_name=f"file_{index}.npz"))
+            files.append(File(payload=bytes_obj, file_name=f"file_{index}.npy"))
     return files
 
 def load_from_ndarray(ndarray_list: list[np.ndarray]):
