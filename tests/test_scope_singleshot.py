@@ -43,12 +43,13 @@ def send_singleshot_npy_to_server(url, api_key, dir_path="data/33137"):
 
     client = QubitScopeClient(url=url, api_key=api_key)
 
-    dict_list = []
+    npy_list = []
     for file_path in file_path_list:
         content = load_npy_file(file_path)
-        dict_list.append(content)
+        npy_list.append(content)
 
-        # 使用从文件路径加载后的对象，格式为np.ndarray，多个组合成list
+    # 使用从文件路径加载后的对象，格式为np.ndarray，多个组合成list
+    dict_list = [content.item() for content in npy_list]
     response = client.request(file_list=dict_list, task_type=TaskName.SINGLESHOT)
     print(response)
 
@@ -65,24 +66,25 @@ def send_singleshot_npy_to_server(url, api_key, dir_path="data/33137"):
     results = response_data.get("results")
     ply_plot_manager = QuantumPlotPlyManager()
     plt_plot_manager = QuantumPlotPltManager()
-    for idx, (result, dict_param) in enumerate(zip(results, dict_list)):
+    for idx, (result, dict_param) in enumerate(zip(results, npy_list)):
         save_path_prefix = f"./tmp/client/result_{TaskName.SINGLESHOT.value}_{savenamelist[idx]}"
         save_path_png = save_path_prefix + ".png"
         save_path_html = save_path_prefix + ".html"
-        plt_plot_manager.plot_quantum_data(
+        fig_plt = plt_plot_manager.plot_quantum_data(
             data_type='npy',
             task_type=TaskName.SINGLESHOT.value,
             save_path=save_path_png,
             result=result,
             dict_param=dict_param
         )
-        ply_plot_manager.plot_quantum_data(
+        fig_ply = ply_plot_manager.plot_quantum_data(
             data_type='npy',
             task_type=TaskName.SINGLESHOT.value,
             save_path=save_path_html,
             result=result,
             dict_param=dict_param
         )
+        # fig_plt.show()
 
 
 def main():
