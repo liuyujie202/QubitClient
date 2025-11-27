@@ -85,9 +85,6 @@ def main():
         dict_list.append(content)
 
     trans_all_npy = transform_t2fit_npy_and_processed_data(API_URL, API_KEY, dict_list)
-    print("trans_all_npy:")
-    print(trans_all_npy)
-
 
 if __name__ == "__main__":
     main()

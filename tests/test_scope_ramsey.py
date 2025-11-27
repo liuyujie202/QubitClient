@@ -10,7 +10,7 @@ from qubitclient.draw.pltmanager import QuantumPlotPltManager
 from qubitclient.draw.plymanager import QuantumPlotPlyManager
 
 
-def send_rabi_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5):
+def send_ramsey_npy_to_server(url, api_key, dir_path="data/ramsey", batch_size=5):
     savenamelist = []
     file_names = os.listdir(dir_path)
     
@@ -38,7 +38,7 @@ def send_rabi_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5)
 
         dict_list = [load_npy_file(p) for p in batch_paths]
 
-        response = client.request(file_list=dict_list, task_type=TaskName.RABI)
+        response = client.request(file_list=dict_list, task_type=TaskName.RAMSEY)
 
         result_data = client.get_result(response)
         if not result_data:
@@ -59,20 +59,20 @@ def send_rabi_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5)
                 print(f"{original_file} failed: No image data available")
                 continue
 
-            save_path_prefix = f"./tmp/client/result_{TaskName.RABI.value}_{batch_savenames[idx_in_batch]}"
+            save_path_prefix = f"./tmp/client/result_{TaskName.RAMSEY.value}_{batch_savenames[idx_in_batch]}"
             save_path_png = save_path_prefix + ".png"
             save_path_html = save_path_prefix + ".html"
 
             plt_plot_manager.plot_quantum_data(
                 data_type='npy',
-                task_type=TaskName.RABI.value,
+                task_type=TaskName.RAMSEY.value,
                 save_path=save_path_png,
                 result=result,
                 dict_param=dict_param
             )
             ply_plot_manager.plot_quantum_data(
                 data_type='npy',
-                task_type=TaskName.RABI.value,
+                task_type=TaskName.RAMSEY.value,
                 save_path=save_path_html,
                 result=result,
                 dict_param=dict_param
@@ -83,7 +83,7 @@ def send_rabi_npy_to_server(url, api_key, dir_path="data/rabifit", batch_size=5)
 def main():
     from config import API_URL, API_KEY
     base_dir = "data/ramsey"
-    send_rabi_npy_to_server(API_URL, API_KEY, base_dir, batch_size=1)
+    send_ramsey_npy_to_server(API_URL, API_KEY, base_dir, batch_size=1)
 
 
 if __name__ == "__main__":
