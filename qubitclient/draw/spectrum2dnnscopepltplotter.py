@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .pltplotter import QuantumDataPltPlotter
 
-class Spectrum2DDataPltPlotter(QuantumDataPltPlotter):
+class Spectrum2DNNScopeDataPltPlotter(QuantumDataPltPlotter):
     def __init__(self):
         super().__init__("spectrum2d")
 

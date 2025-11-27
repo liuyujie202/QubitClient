@@ -52,17 +52,13 @@ def send_s21vflux_npy_to_server(url, api_key, dir_path="data/33137"):
     response = client.request(file_list=dict_list, task_type=TaskName.S21VFLUX)
     print(response)
 
-    # === 解析结果并绘图（每个文件单独生成 HTML）===
+    response_data = client.get_result(response)
 
-    # 1. 解析服务器返回
-    if hasattr(response, 'parsed'):
-        response_data = response.parsed
-    elif isinstance(response, dict):
-        response_data = response
-    else:
-        response_data = {}
+    threshold = 0.5
+    response_data_filtered = client.get_filtered_result(response,threshold,TaskName.S21VFLUX.value)
 
-    results = response_data.get("results")
+    results = response_data_filtered.get("results")
+
     ply_plot_manager = QuantumPlotPlyManager()
     plt_plot_manager = QuantumPlotPltManager()
     for idx, (result, dict_param) in enumerate(zip(results, dict_list)):

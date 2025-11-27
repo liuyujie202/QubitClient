@@ -52,17 +52,13 @@ def send_s21peak_npy_to_server(url, api_key, dir_path="data/33137"):
     response = client.request(file_list=dict_list, task_type=TaskName.S21PEAK)
     print(response)
     
-    # === 解析结果并绘图（每个文件单独生成 HTML）===
 
-        # 1. 解析服务器返回
-    if hasattr(response, 'parsed'):
-        response_data = response.parsed
-    elif isinstance(response, dict):
-        response_data = response
-    else:
-        response_data = {}
+    response_data = client.get_result(response)
+    threshold = 0.5
+    response_data_filtered = client.get_filtered_result(response,threshold,TaskName.S21PEAK.value)
 
     results = response_data.get("results")
+
     ply_plot_manager = QuantumPlotPlyManager()
     plt_plot_manager = QuantumPlotPltManager()
 
@@ -70,21 +66,22 @@ def send_s21peak_npy_to_server(url, api_key, dir_path="data/33137"):
         save_path_prefix = f"./tmp/client/result_{TaskName.S21PEAK.value}_{savenamelist[idx]}"
         save_path_png = save_path_prefix + ".png"
         save_path_html = save_path_prefix + ".html"
-        plt_plot_manager.plot_quantum_data(
+        fig_plt = plt_plot_manager.plot_quantum_data(
             data_type='npy',
             task_type=TaskName.S21PEAK.value,
             save_path=save_path_png,
             result=result,
             dict_param=dict_param
         )
-        ply_plot_manager.plot_quantum_data(
+        fig_ply = ply_plot_manager.plot_quantum_data(
             data_type='npy',
             task_type=TaskName.S21PEAK.value,
             save_path=save_path_html,
             result=result,
             dict_param=dict_param
         )
-
+        # if want to show plot like plt.show(), you can use this
+        # fig_plt.show()
 
 
 
