@@ -1,13 +1,12 @@
-# src/draw/rabiplyplotter.py
 from .plyplotter import QuantumDataPlyPlotter
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 
 
-class RabiDataPlyPlotter(QuantumDataPlyPlotter):
+class RamseyDataPlyPlotter(QuantumDataPlyPlotter):
     def __init__(self):
-        super().__init__("rabi")
+        super().__init__("ramsey")
 
     def plot_result_npy(self, **kwargs):
         result     = kwargs.get('result')
@@ -82,5 +81,5 @@ class RabiDataPlyPlotter(QuantumDataPlyPlotter):
             if col == 1:
                 fig.update_yaxes(title_text="P(|1>)", row=row, col=col)
 
-        fig.update_layout(height=420*rows, width=540*cols, title_text="Rabi Oscillation Fit", title_x=0.5)
+        fig.update_layout(height=420*rows, width=540*cols, title_text="Ramsey Oscillation Fit", title_x=0.5)
         return fig
