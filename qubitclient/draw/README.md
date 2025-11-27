@@ -58,7 +58,7 @@
 ```
 ## 绘制量子数据
 ```python
-    plot_manager.plot_quantum_data(
+    fig = plot_manager.plot_quantum_data(
         data_type='npy',           # 数据格式：npy或npz
         task_type='spectrum2d',    # 任务类型
         save_path="result.html",        # 保存路径
@@ -84,7 +84,7 @@
     # SPECTRUM = "spectrum"
     # T1FIT = "t1fit"
     # T2FIT = "t2fit"
-    SPECTRUM2D = "spectrum2d"
+    SPECTRUM2DNNSCOPE = "spectrum2dnnscope"
     
     
     scope/task.py
@@ -98,7 +98,7 @@
         SPECTRUM = "spectrum"
         T1FIT = "t1fit"
         T2FIT = "t2fit"
-        SPECTRUM2D = "spectrum2d"
+        SPECTRUM2DSCOPE = "spectrum2dscope"
         POWERSHIFT = "powershift"
 ```
 步骤如下： 
@@ -114,7 +114,7 @@
     save_path_png = save_path_prefix + ".png"
     save_path_html = save_path_prefix + ".html"
     plot_manager = QuantumPlotPlyManager()
-    plot_manager.plot_quantum_data(
+    fig_ply = plot_manager.plot_quantum_data(
         data_type='npy',
         task_type=NNTaskName.SPECTRUM2D.value,
         save_path=save_path_html,
@@ -123,7 +123,7 @@
     )
 
     plot_manager = QuantumPlotPltManager()
-    plot_manager.plot_quantum_data(
+    fig_plt = plot_manager.plot_quantum_data(
         data_type='npy',
         task_type=NNTaskName.SPECTRUM2D.value,
         save_path=save_path_png,

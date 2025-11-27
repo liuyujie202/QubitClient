@@ -3,7 +3,7 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-class Spectrum2DDataPlyPlotter(QuantumDataPlyPlotter):
+class Spectrum2DNNScopeDataPlyPlotter(QuantumDataPlyPlotter):
 
     def __init__(self):
         super().__init__("spectrum2d")

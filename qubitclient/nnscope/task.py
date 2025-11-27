@@ -146,7 +146,7 @@ def test(files):
     return "hello"
 
 @task_register
-def spectrum2d(files,url,api_key,curve_type):
+def spectrum2dnnscope(files,url,api_key,curve_type):
     spectrum2d_url = url + "/api/v1/tasks/nnscope/seglines"
     response = request_task(files,spectrum2d_url,api_key,curve_type)
     return response
@@ -163,7 +163,7 @@ class NNTaskName(Enum):
     # SPECTRUM = "spectrum"
     # T1FIT = "t1fit"
     # T2FIT = "t2fit"
-    SPECTRUM2D = "spectrum2d"
+    SPECTRUM2DNNSCOPE = "spectrum2dnnscope"
 
 
 

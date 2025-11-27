@@ -52,15 +52,9 @@ def send_spectrum2dscope_npy_to_server(url, api_key, dir_path="data/33137"):
     response = client.request(file_list=dict_list, task_type=TaskName.SPECTRUM2DSCOPE)
     print(response)
 
-    # === 解析结果并绘图（每个文件单独生成 HTML）===
-
-    # 1. 解析服务器返回
-    if hasattr(response, 'parsed'):
-        response_data = response.parsed
-    elif isinstance(response, dict):
-        response_data = response
-    else:
-        response_data = {}
+    response_data = client.get_result(response)
+    threshold = 0.5
+    response_data_filtered = client.get_filtered_result(response,threshold,TaskName.SPECTRUM2DSCOPE.value)
 
     results = response_data.get("results")
     ply_plot_manager = QuantumPlotPlyManager()

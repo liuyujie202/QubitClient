@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .pltplotter import QuantumDataPltPlotter
-from .spectrum2dpltplotter import Spectrum2DDataPltPlotter
+from .spectrum2dnnscopepltplotter import Spectrum2DNNScopeDataPltPlotter
 from .s21vfluxpltplotter import S21VfluxDataPltPlotter
 from .singleshotpltplotter import SingleShotDataPltPlotter
 from .spectrum2dscopepltplotter import Spectrum2DScopeDataPltPlotter
@@ -20,7 +20,7 @@ class QuantumPlotPltManager:
         self.register_plotters()
 
     def register_plotters(self):
-        self.plotters["spectrum2d"] = Spectrum2DDataPltPlotter()
+        self.plotters["spectrum2dnnscope"] = Spectrum2DNNScopeDataPltPlotter()
         self.plotters["s21vflux"] = S21VfluxDataPltPlotter()
         self.plotters["singleshot"] = SingleShotDataPltPlotter()
         self.plotters["spectrum2dscope"] = Spectrum2DScopeDataPltPlotter()

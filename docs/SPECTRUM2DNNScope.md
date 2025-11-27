@@ -75,6 +75,11 @@ response = client.request(
 
 ```python
 results = client.get_result(response=response)
+threshold = 0.5
+results_filtered = client.get_filtered_result(response, threshold, NNTaskName.SPECTRUM2DNNSCOPE.value)
+# results 和 results_filtered 分别是阈值筛选前和筛选后的结果
+
+
 ```
 
 ## 返回值格式
